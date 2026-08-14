@@ -1,0 +1,11 @@
+# making-change @ G2
+1nd8tcm | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>99¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+s053yv | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>52¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+lmheih | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>61¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1oh0x4k | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>79¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1m8iyz6 | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>15¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1nd8tcm | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>99¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+lmheih | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>61¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1pl2hef | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>85¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1m943ks | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>71¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1qz3nd9 | <div class="making-change"><div class="prompt">You pay with <b>$1</b>. It costs <b>94¢</b>. How much change?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>

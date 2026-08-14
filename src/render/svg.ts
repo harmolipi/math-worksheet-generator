@@ -70,6 +70,32 @@ export function fractionPieSvg(numerator: number, denominator: number, suffix: s
   );
 }
 
+/**
+ * US coin line art (penny 1¢, nickel 5¢, dime 10¢, quarter 25¢). Ink-first:
+ * circle outline + value label; milled edge (dashes) on dime/quarter, plain
+ * rim on penny/nickel. Nickel/quarter draw larger, like the real coins.
+ */
+export function coinSvg(denom: number): string {
+  const r = denom === 25 || denom === 5 ? 42 : 36;
+  const milled = denom === 25 || denom === 10;
+  const rim = milled
+    ? `<circle cx="50" cy="50" r="${r + 3.5}" class="coin-mill" stroke-dasharray="1.5 4.5"/>`
+    : '';
+  return (
+    `<svg class="coin" viewBox="0 0 100 100" aria-hidden="true">` +
+    rim +
+    `<circle cx="50" cy="50" r="${r}" class="coin-rim"/>` +
+    `<text x="50" y="51" text-anchor="middle" dominant-baseline="central" class="coin-label">${denom}¢</text>` +
+    `</svg>`
+  );
+}
+
+/** A wrapping row of coins, biggest first (counting, money-add groups). */
+export function coinGroup(denoms: number[]): string {
+  const sorted = [...denoms].sort((a, b) => b - a);
+  return `<div class="coin-row" role="img">${sorted.map((d) => coinSvg(d)).join('')}</div>`;
+}
+
 /** Analog clock face: hour + minute hands, 12 tick marks. */
 export function clockSvg(hour: number, minute: number, className?: string): string {
   const cx = 50;

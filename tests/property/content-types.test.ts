@@ -345,6 +345,43 @@ describe('content type property tests (answers by construction)', () => {
     });
   });
 
+  it('coins-count: coins sum to total; answer is formatted cents', () => {
+    forSeeds('coins-count', 40, 'G2', (p) => {
+      const d = data<{ coins: number[]; total: number }>(p);
+      expect(d.coins.reduce((s, c) => s + c, 0)).toBe(d.total);
+      expect(d.total).toBeGreaterThan(0);
+      expect(d.coins.every((c) => [1, 5, 10, 25].includes(c))).toBe(true);
+      expect(p.answer!.value).toBe(`${d.total}¢`);
+    });
+  });
+
+  it('money-add: a + b === total; both groups decompose exactly', () => {
+    forSeeds('money-add', 40, 'G2', (p) => {
+      const d = data<{ a: number; b: number; total: number; aCoins: number[]; bCoins: number[] }>(p);
+      expect(d.a + d.b).toBe(d.total);
+      expect(d.aCoins.reduce((s, c) => s + c, 0)).toBe(d.a);
+      expect(d.bCoins.reduce((s, c) => s + c, 0)).toBe(d.b);
+      expect(d.aCoins.every((c) => [1, 5, 10, 25].includes(c))).toBe(true);
+      expect(d.bCoins.every((c) => [1, 5, 10, 25].includes(c))).toBe(true);
+      expect(p.answer!.value).toBe(`${d.total}¢`);
+    });
+  });
+
+  it('making-change: change = bill − price, always positive, formatted answer', () => {
+    forSeeds('making-change', 40, 'G2', (p) => {
+      const d = data<{ bill: number; price: number; change: number }>(p);
+      expect(d.change).toBe(d.bill * 100 - d.price);
+      expect(d.change).toBeGreaterThan(0);
+      const expected =
+        d.change >= 100
+          ? d.change % 100 === 0
+            ? `$${d.change / 100}`
+            : `$${Math.floor(d.change / 100)}.${String(d.change % 100).padStart(2, '0')}`
+          : `${d.change}¢`;
+      expect(p.answer!.value).toBe(expected);
+    });
+  });
+
   it('add-vertical with carry=always carries in the ones column', () => {
     for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
       const spec = baseSpec({

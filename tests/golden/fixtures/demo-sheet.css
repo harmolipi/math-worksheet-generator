@@ -221,6 +221,35 @@ svg .icon-dot { stroke-width: 3.2; }
   border-bottom: 1.2pt solid #333;
 }
 
+/* ── money ───────────────────────────────────────────── */
+.coin-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4pt;
+}
+.coin { width: 32pt; height: 32pt; display: inline-block; }
+.coin-rim { fill: none; stroke: #444; stroke-width: 2; }
+.coin-mill { fill: none; stroke: #444; stroke-width: 1.4; }
+.coin-label {
+  font-size: 30px;
+  font-weight: 700;
+  fill: #333;
+  font-family: inherit;
+}
+.money-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8pt;
+}
+.money-add-row .coin-row { max-width: 132pt; }
+.money-op { font-size: 16pt; font-weight: 800; color: #444; }
+.money-add .blank { width: 2.6em; }
+.coins-count, .money-add, .making-change { text-align: center; }
+
 /* ── manual questions ───────────────────────────────── */
 .manual-horizontal { display: inline-flex; align-items: baseline; gap: 10pt; }
 .manual-prompt {
