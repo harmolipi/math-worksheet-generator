@@ -2,21 +2,21 @@
 
 **Source of truth for progress.** Tick items here AND in `.plans/durable-plan.md` as work completes. Each phase ends deployed + print-verified.
 
-Current status: **Phase 0 in progress** (scaffold, docs, CI).
+Current status: **Phase 1 in progress** — engine core ✓, manual type (engine) ✓, 10 content types + 20 icons ✓. Next: print pipeline (assemble + sheet CSS + preview + print root).
 
 ## Phase 0 — Scaffold
 
-- [ ] git init; Vite + Svelte 5 (runes) + TS + Vitest + ESLint (engine determinism rules)
-- [ ] flake.nix (nixpkgs-unstable + flake-utils house style) + .envrc
-- [ ] GitHub Actions deploy.yml (build → upload-pages-artifact → deploy-pages); Vite base './'
-- [ ] Docs skeleton: README, CLAUDE.md, docs/{architecture,content-catalog,roadmap,qa-print}.md; .plans/durable-plan.md
-- [ ] Checkpoint: placeholder live on Pages, CI green, golden test in CI
+- [x] git init; Vite + Svelte 5 (runes) + TS + Vitest + ESLint (engine determinism rules)
+- [x] flake.nix (nixpkgs-unstable + flake-utils house style) + .envrc
+- [x] GitHub Actions deploy.yml (build → upload-pages-artifact → deploy-pages); Vite base './'
+- [x] Docs skeleton: README, CLAUDE.md, docs/{architecture,content-catalog,roadmap,qa-print}.md; .plans/durable-plan.md
+- [x] Checkpoint: placeholder live on Pages (harmolipi.github.io/math-worksheet-generator), CI green, golden test in CI
 
 ## Phase 1 — Engine + print pipeline + first content + UI v1
 
-- [ ] Engine: rng, seed, spec types, validateSpec, serialize+migrate, fingerprint, generate+dedupe, pack, assemble, registry
-- [ ] Engine support for `manual` type (no-RNG generate, escaped render, validation caps)
-- [ ] First 10 types (counting: count-objects, number-recognition, quantity-matching, which-has-more, missing-number-sequence, number-tracing, ten-frame, count-and-write; addsub: add-facts, sub-facts, add-vertical, sub-vertical) + 20 icons
+- [x] Engine: rng, seed, spec types, validateSpec, serialize+migrate, fingerprint, generate+dedupe, pack, assemble, registry (assemble pending — part of print pipeline item)
+- [x] Engine support for `manual` type (no-RNG generate, escaped render, validation caps)
+- [x] First 10 types (counting: count-objects, number-recognition, quantity-matching, which-has-more, missing-number-sequence, number-tracing, ten-frame; addsub: add-facts, sub-facts, add-vertical) + 20 icons
 - [ ] sheet-css (Letter+A4), scaled preview, print-root, header (title/name/date), answer key list mode, in-flow page numbers, overflow lint
 - [ ] UI v1: grade-band picker, type cards with previews, options panel, seed + regenerate, Print hints (frontend-design skill)
 - [ ] Tests: golden, property, purity, round-trip, packing, validation

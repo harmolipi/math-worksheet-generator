@@ -39,23 +39,29 @@ Status: `planned` → `implemented` → `print-verified` (docs/qa-print.md).
 
 | id | name | grade | status | phase | notes |
 | --- | --- | --- | --- | --- | --- |
-| `count-objects` | Count the objects | preK–K | planned | 1 | icons row/grid/scatter; max 5/10/20 |
-| `number-recognition` | Circle the numeral | preK–K | planned | 1 | distractors within ±3 |
-| `quantity-matching` | Match number to group | preK–1 | planned | 1 | line-drawing pairs |
-| `which-has-more` | Which has more? | preK–K | planned | 1 | also "fewer"; two icon groups |
-| `missing-number-sequence` | Fill the missing number | K–1 | planned | 1 | 1–10, 1–20; skip-counting later |
-| `number-tracing` | Trace the number | preK–K | planned | 1 | SVG stroke-dasharray digits |
-| `ten-frame` | Ten frames | K–1 | planned | 1 | count / how many to make 10 |
-| `count-and-write` | Count and write | preK–K | planned | 1 | icons → numeral in answer box |
+| `count-objects` | Count the objects | preK–K | implemented | 1 | icons row/grid/scatter; max 5/10/20; uniform or mixed icons |
+| `number-recognition` | Circle the numeral | preK–K | implemented | 1 | distractors within ±3 |
+| `quantity-matching` | Match number to group | preK–G1 | implemented | 1 | line-drawing pairs, shuffled right column |
+| `which-has-more` | Which has more? | preK–K | implemented | 1 | also "fewer"; A/B boxes |
+| `missing-number-sequence` | Fill the missing number | K–G1 | implemented | 1 | steps 1/2/5/10 |
+| `number-tracing` | Trace the number | preK–K | implemented | 1 | SVG stroke-dasharray; dashed/outline |
+| `ten-frame` | Ten frames | K–G1 | implemented | 1 | count / how many to make 10 |
+| `count-and-write` | Count and write | preK–K | planned | 2 | icons → numeral in answer box |
 
 ### addsub (K – G5)
 
 | id | name | grade | status | phase | notes |
 | --- | --- | --- | --- | --- | --- |
-| `add-facts` | Addition facts | K–2 | planned | 1 | sums ≤10 → ≤20; horiz + vertical |
-| `sub-facts` | Subtraction facts | 1–2 | planned | 1 | minuend ≤10/20; never negative |
-| `add-vertical` | Vertical addition | 2–4 | planned | 1 | no-carry / carry; carry box |
-| `sub-vertical` | Vertical subtraction | 2–4 | planned | 1 | no-borrow / borrow |
+| `add-facts` | Addition facts | K–2 | implemented | 1 | sums ≤10 → ≤20; horiz + vertical; includeZero |
+| `sub-facts` | Subtraction facts | G1–2 | implemented | 1 | minuend ≤10/20; never negative; includeZero |
+| `add-vertical` | Vertical addition | G2–4 | implemented | 1 | carry none/always/mixed by construction; carry row |
+| `sub-vertical` | Vertical subtraction | G2–4 | planned | 2 | no-borrow / borrow |
+
+### manual (all grades)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `manual` | My own question | preK–G5 | implemented | 1 | RNG-free; HTML-escaped; horizontal/vertical; editor UI in Phase 2 |
 
 ### multdiv / placevalue / fractions / time / money / measurement / geometry / patterns / colorByNumber / wordproblems / manual
 
@@ -63,4 +69,4 @@ Reserved subject dirs; tables filled in as Phase 2–3 types land (multdiv facts
 
 ## Icon library (`src/render/icons.ts`)
 
-Hand-authored ink-first SVGs (viewBox 0 0 32 32, stroke `currentColor`, fills via CSS vars). Phase 1 (~20): shapes (circle, square, triangle, star, heart…), fruit (apple, banana…), animals (cat, dog, bird, fish…), objects (ball, balloon, book, pencil…). Phase 2 (~28): vehicles, foods, weather, more animals. Counting subjects use the shape/fruit/animal/object subsets first. Auxiliary drawn assets (ten-frame, base-10 blocks, ruler, clock, fraction bars, number line, coins, tally marks, hundreds chart) live in `render/svg.ts`, not the icon library.
+Hand-authored ink-first SVGs (viewBox 0 0 32 32, stroke `currentColor`, stroke-width 2, fills via CSS vars). Implemented (20): shapes — circle, square, triangle, star, heart, diamond, oval; fruit — apple, banana, orange, cherry; animals — cat, dog, fish, bird; objects — ball, balloon, book, pencil, sun. Themed pools in `ICON_SETS`. Phase 2 (~28 more): vehicles, foods, weather, more animals. Auxiliary drawn assets (ten-frame ✓, base-10 blocks, ruler, clock, fraction bars, number line, coins, tally marks, hundreds chart) live in `render/svg.ts` or the owning type — ten-frame renders its own SVG.
