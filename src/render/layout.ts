@@ -34,7 +34,7 @@ export function footerHtml(
 /** Workspace area under a problem; per-problem override (manual) wins. */
 export function workspaceHtml(spec: WorksheetSpec, problem: PackedProblem): string {
   const mode =
-    (problem.data.workspace as string | undefined) ?? spec.layout.workspace;
+    (problem.data as { workspace?: string }).workspace ?? spec.layout.workspace;
   if (!mode || mode === 'none') return '';
   return `<div class="workspace-${mode}"></div>`;
 }

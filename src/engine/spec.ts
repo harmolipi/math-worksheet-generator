@@ -125,7 +125,7 @@ export interface QuestionType {
    * (never measured at runtime). Receives the problem's DATA — anything the
    * estimate needs (arrangement, layout, digit count…) must be stored there.
    */
-  estHeightPt?(data: Record<string, unknown>): number;
+  estHeightPt?(data: object): number;
   /** Extra validation beyond ParamSpec (e.g. array-valued params like manual questions). */
   validateParams?(params: Record<string, unknown>): string[];
 }
