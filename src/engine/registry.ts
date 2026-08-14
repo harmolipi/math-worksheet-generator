@@ -9,6 +9,7 @@ import { placevalueTypes } from '../content/placevalue';
 import { fractionTypes } from '../content/fractions';
 import { timeTypes } from '../content/time';
 import { moneyTypes } from '../content/money';
+import { measurementTypes } from '../content/measurement';
 import { manualTypes } from '../content/manual';
 
 export const allTypes: QuestionType[] = [
@@ -19,6 +20,7 @@ export const allTypes: QuestionType[] = [
   ...fractionTypes,
   ...timeTypes,
   ...moneyTypes,
+  ...measurementTypes,
   ...manualTypes,
 ];
 

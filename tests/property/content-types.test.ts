@@ -382,6 +382,41 @@ describe('content type property tests (answers by construction)', () => {
     });
   });
 
+  it('ruler-read: integer ticks, start + length === end, answer in inches', () => {
+    forSeeds('ruler-read', 40, 'G2', (p) => {
+      const d = data<{ start: number; end: number; length: number; maxInches: number }>(p);
+      expect(Number.isInteger(d.start)).toBe(true);
+      expect(Number.isInteger(d.end)).toBe(true);
+      expect(d.start + d.length).toBe(d.end);
+      expect(d.start).toBeGreaterThanOrEqual(0);
+      expect(d.end).toBeLessThanOrEqual(d.maxInches);
+      expect(d.length).toBeGreaterThanOrEqual(1);
+      expect(p.answer!.value).toBe(`${d.length} in`);
+    });
+  });
+
+  it('compare-lengths: bars differ; the answer side wins the question', () => {
+    forSeeds('compare-lengths', 40, 'G1', (p) => {
+      const d = data<{ a: number; b: number; question: 'longer' | 'shorter'; side: 'A' | 'B' }>(p);
+      expect(d.a).not.toBe(d.b);
+      const winner: 'A' | 'B' =
+        (d.question === 'longer') === (d.a > d.b) ? 'A' : 'B';
+      expect(d.side).toBe(winner);
+      expect(p.answer!.value).toBe(winner);
+    });
+  });
+
+  it('area-perimeter: recomputed area/perimeter matches the answer', () => {
+    forSeeds('area-perimeter', 40, 'G3', (p) => {
+      const d = data<{ w: number; h: number; mode: 'area' | 'perimeter'; answer: number }>(p);
+      const expected = d.mode === 'area' ? d.w * d.h : 2 * (d.w + d.h);
+      expect(d.answer).toBe(expected);
+      expect(p.answer!.value).toBe(
+        d.mode === 'area' ? `${expected} square units` : `${expected} units`,
+      );
+    });
+  });
+
   it('add-vertical with carry=always carries in the ones column', () => {
     for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
       const spec = baseSpec({

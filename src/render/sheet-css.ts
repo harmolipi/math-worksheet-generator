@@ -300,6 +300,23 @@ svg .icon-dot { stroke-width: 3.2; }
 .money-add .blank { width: 2.6em; }
 .coins-count, .money-add, .making-change { text-align: center; }
 
+/* ── measurement ─────────────────────────────────────── */
+.ruler { width: 100%; max-width: 220pt; display: block; }
+.ruler-base, .ruler-tick { stroke: #444; stroke-width: 1.6; }
+.ruler-tick { stroke-width: 1.2; }
+.ruler-number { font-size: 13px; fill: #333; font-weight: 600; }
+.ruler-span { stroke: #222; stroke-width: 2.4; }
+.ruler-guide { stroke: #888; stroke-width: 1; }
+.ruler-head { fill: #222; stroke: none; }
+.ruler-read, .compare-lengths, .area-perimeter { text-align: center; }
+.bar-list { display: flex; flex-direction: column; align-items: center; gap: 8pt; margin-top: 4pt; }
+.bar-row { display: flex; align-items: center; gap: 8pt; }
+.bar-svg { width: 110pt; height: 15pt; display: block; }
+.bar-rect { fill: none; stroke: #333; stroke-width: 2; }
+.ap-grid { width: 100%; max-width: 180pt; display: block; }
+.ap-cell { stroke: #444; stroke-width: 1; }
+.ap-frame { fill: none; stroke: #222; stroke-width: 2; }
+
 /* ── manual questions ───────────────────────────────── */
 .manual-horizontal { display: inline-flex; align-items: baseline; gap: 10pt; }
 .manual-prompt {

@@ -96,6 +96,37 @@ export function coinGroup(denoms: number[]): string {
   return `<div class="coin-row" role="img">${sorted.map((d) => coinSvg(d)).join('')}</div>`;
 }
 
+/**
+ * Inch ruler (integer ticks only — the engine never emits fractional
+ * measurements). `start`/`end` mark the measured span in inches; a
+ * double-headed arrow and dashed guides show what to read.
+ */
+export function rulerSvg(start: number, end: number, maxInches: number): string {
+  const unit = 40;
+  const x0 = 15;
+  const top = 26;
+  const base = 60;
+  const x = (i: number) => x0 + i * unit;
+  let ticks = '';
+  for (let i = 0; i <= maxInches; i++) {
+    ticks += `<line x1="${x(i)}" y1="${base}" x2="${x(i)}" y2="${base - 12}" class="ruler-tick"/>`;
+    ticks += `<text x="${x(i)}" y="${base + 18}" text-anchor="middle" class="ruler-number">${i}</text>`;
+  }
+  const x1 = x(start);
+  const x2 = x(end);
+  return (
+    `<svg class="ruler" viewBox="0 0 ${x(maxInches) + x0} 92" aria-hidden="true">` +
+    `<line x1="${x0}" y1="${base}" x2="${x(maxInches)}" y2="${base}" class="ruler-base"/>` +
+    ticks +
+    `<line x1="${x1}" y1="${top}" x2="${x2}" y2="${top}" class="ruler-span"/>` +
+    `<line x1="${x1}" y1="${top}" x2="${x1}" y2="${base}" class="ruler-guide" stroke-dasharray="3 4"/>` +
+    `<line x1="${x2}" y1="${top}" x2="${x2}" y2="${base}" class="ruler-guide" stroke-dasharray="3 4"/>` +
+    `<polygon points="${x1},${top} ${x1 + 7},${top - 4} ${x1 + 7},${top + 4}" class="ruler-head"/>` +
+    `<polygon points="${x2},${top} ${x2 - 7},${top - 4} ${x2 - 7},${top + 4}" class="ruler-head"/>` +
+    `</svg>`
+  );
+}
+
 /** Analog clock face: hour + minute hands, 12 tick marks. */
 export function clockSvg(hour: number, minute: number, className?: string): string {
   const cx = 50;

@@ -71,10 +71,18 @@ Status: `planned` → `implemented` → `print-verified` (docs/qa-print.md).
 | `making-change` | Making change | G2–3 | implemented | 2 | pay with $1/$5; price first, change derived |
 | `money-add` | Add the money | G1–3 | implemented | 2 | two coin groups, greedy exact decomposition |
 
-### measurement / geometry / patterns / colorByNumber / wordproblems
+### measurement (K – G4)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `ruler-read` | Read the ruler | G1–3 | implemented | 2 | inch ruler SVG, integer ticks, arrow span |
+| `compare-lengths` | Longer or shorter? | K–2 | implemented | 2 | two bars A/B, distinct lengths |
+| `area-perimeter` | Area or perimeter | G3–4 | implemented | 2 | hatched cell grid (area) / outline (perimeter) |
+
+### geometry / patterns / colorByNumber / wordproblems
 
 Reserved subject dirs; tables filled in as Phase 2–3 types land (ruler reading, shape identification, next-in-pattern, color-by-number, word-problem template families).
 
 ## Icon library (`src/render/icons.ts`)
 
-Hand-authored ink-first SVGs (viewBox 0 0 32 32, stroke `currentColor`, stroke-width 2, fills via CSS vars). Implemented (53): shapes — circle, square, triangle, star, heart, diamond, oval, pentagon, hexagon, rectangle, trapezoid, crescent; fruit — apple, banana, orange, cherry; animals — cat, dog, fish, bird, rabbit, butterfly, snail, frog, bee, ladybug; objects — ball, balloon, book, pencil, sun, house, tree, flower, kite, gift; vehicles — car, truck, plane, boat, train, rocket; foods — icecream, cupcake, pizza, carrot, grapes, mushroom; weather — cloud, rain, umbrella, snowflake, rainbow. Themed pools in `ICON_SETS`; `mixed` is FROZEN to the Phase 1 20 so existing seeds never change. Auxiliary drawn assets (ten-frame ✓, base-10 blocks ✓, clock ✓, fraction bars/pies ✓, coins ✓, ruler, number line, tally marks, hundreds chart) live in `render/svg.ts` or the owning type.
+Hand-authored ink-first SVGs (viewBox 0 0 32 32, stroke `currentColor`, stroke-width 2, fills via CSS vars). Implemented (53): shapes — circle, square, triangle, star, heart, diamond, oval, pentagon, hexagon, rectangle, trapezoid, crescent; fruit — apple, banana, orange, cherry; animals — cat, dog, fish, bird, rabbit, butterfly, snail, frog, bee, ladybug; objects — ball, balloon, book, pencil, sun, house, tree, flower, kite, gift; vehicles — car, truck, plane, boat, train, rocket; foods — icecream, cupcake, pizza, carrot, grapes, mushroom; weather — cloud, rain, umbrella, snowflake, rainbow. Themed pools in `ICON_SETS`; `mixed` is FROZEN to the Phase 1 20 so existing seeds never change. Auxiliary drawn assets (ten-frame ✓, base-10 blocks ✓, clock ✓, fraction bars/pies ✓, coins ✓, ruler ✓, number line, tally marks, hundreds chart) live in `render/svg.ts` or the owning type.
