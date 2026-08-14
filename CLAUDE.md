@@ -2,6 +2,8 @@
 
 Browser-only math worksheet generator (pre-K → grade 5), Svelte 5 + Vite + TypeScript, deployed to GitHub Pages. No backend, no realtime LLM. Deterministic: `WorksheetSpec` (config) + seed ⇒ identical sheet.
 
+**Svelte MCP tools:** see [AGENTS.md](./AGENTS.md) — use `list-sections`/`get-documentation` for Svelte questions and `svelte-autofixer` on any Svelte code before finishing.
+
 ## Commands
 
 ```sh

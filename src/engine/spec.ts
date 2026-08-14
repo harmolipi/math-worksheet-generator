@@ -78,8 +78,11 @@ export interface Problem {
   index: number;
   /** Resolved numeric grade level (GRADE_LEVEL values). */
   gradeLevel: number;
-  /** Serializable, integer-only, deterministic. Layout jitter lives here too. */
-  data: Record<string, unknown>;
+  /**
+   * Serializable, integer-only, deterministic. Layout jitter lives here too.
+   * Typed as `object` so per-type data interfaces don't need index signatures.
+   */
+  data: object;
   answer: Answer | null;
   fingerprint: string;
 }

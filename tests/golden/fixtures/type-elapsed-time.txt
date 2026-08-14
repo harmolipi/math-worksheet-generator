@@ -1,0 +1,11 @@
+# elapsed-time @ G2
+8zxwlk | <div class="elapsed-time"><div class="prompt">Start at <b>7:30</b>. End at <b>8:30</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1bb4nps | <div class="elapsed-time"><div class="prompt">Start at <b>6:00</b>. End at <b>6:30</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1cb6rg | <div class="elapsed-time"><div class="prompt">Start at <b>5:30</b>. End at <b>6:15</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+8ggob9 | <div class="elapsed-time"><div class="prompt">Start at <b>7:30</b>. End at <b>9:00</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1pf7ryh | <div class="elapsed-time"><div class="prompt">Start at <b>1:00</b>. End at <b>2:30</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+8ggob9 | <div class="elapsed-time"><div class="prompt">Start at <b>7:30</b>. End at <b>9:00</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+5k4qwj | <div class="elapsed-time"><div class="prompt">Start at <b>5:30</b>. End at <b>7:00</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+jitqct | <div class="elapsed-time"><div class="prompt">Start at <b>4:30</b>. End at <b>6:00</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1z0v15k | <div class="elapsed-time"><div class="prompt">Start at <b>7:00</b>. End at <b>7:45</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+p20ale | <div class="elapsed-time"><div class="prompt">Start at <b>3:30</b>. End at <b>4:00</b>. How long did it take?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>

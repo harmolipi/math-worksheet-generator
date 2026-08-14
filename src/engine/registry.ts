@@ -6,6 +6,8 @@ import { countingTypes } from '../content/counting';
 import { addsubTypes } from '../content/addsub';
 import { multdivTypes } from '../content/multdiv';
 import { placevalueTypes } from '../content/placevalue';
+import { fractionTypes } from '../content/fractions';
+import { timeTypes } from '../content/time';
 import { manualTypes } from '../content/manual';
 
 export const allTypes: QuestionType[] = [
@@ -13,6 +15,8 @@ export const allTypes: QuestionType[] = [
   ...addsubTypes,
   ...multdivTypes,
   ...placevalueTypes,
+  ...fractionTypes,
+  ...timeTypes,
   ...manualTypes,
 ];
 

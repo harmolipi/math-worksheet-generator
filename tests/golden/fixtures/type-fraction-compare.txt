@@ -1,0 +1,11 @@
+# fraction-compare @ G3
+hputjw | <div class="fact"><span class="frac-stack">2<span class="frac-line">4</span></span><span class="write-box">&#8203;</span><span class="frac-stack">2<span class="frac-line">3</span></span></div>
+1s1d5td | <div class="fact"><span class="frac-stack">1<span class="frac-line">2</span></span><span class="write-box">&#8203;</span><span class="frac-stack">1<span class="frac-line">2</span></span></div>
+1b0g930 | <div class="fact"><span class="frac-stack">1<span class="frac-line">4</span></span><span class="write-box">&#8203;</span><span class="frac-stack">1<span class="frac-line">3</span></span></div>
+1rrdk4e | <div class="fact"><span class="frac-stack">1<span class="frac-line">2</span></span><span class="write-box">&#8203;</span><span class="frac-stack">1<span class="frac-line">3</span></span></div>
+11nq4gj | <div class="fact"><span class="frac-stack">2<span class="frac-line">3</span></span><span class="write-box">&#8203;</span><span class="frac-stack">1<span class="frac-line">2</span></span></div>
+1llvxjz | <div class="fact"><span class="frac-stack">3<span class="frac-line">4</span></span><span class="write-box">&#8203;</span><span class="frac-stack">2<span class="frac-line">3</span></span></div>
+1l4bpl2 | <div class="fact"><span class="frac-stack">2<span class="frac-line">4</span></span><span class="write-box">&#8203;</span><span class="frac-stack">3<span class="frac-line">4</span></span></div>
+kx8x9f | <div class="fact"><span class="frac-stack">1<span class="frac-line">4</span></span><span class="write-box">&#8203;</span><span class="frac-stack">3<span class="frac-line">4</span></span></div>
+1s1d5td | <div class="fact"><span class="frac-stack">1<span class="frac-line">2</span></span><span class="write-box">&#8203;</span><span class="frac-stack">1<span class="frac-line">2</span></span></div>
+11dqirk | <div class="fact"><span class="frac-stack">2<span class="frac-line">3</span></span><span class="write-box">&#8203;</span><span class="frac-stack">1<span class="frac-line">3</span></span></div>

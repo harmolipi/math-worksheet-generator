@@ -291,6 +291,60 @@ describe('content type property tests (answers by construction)', () => {
     });
   });
 
+  it('fraction-shade: 1 ≤ numerator < denominator; answer is the fraction', () => {
+    forSeeds('fraction-shade', 40, 'G3', (p) => {
+      const d = data<{ numerator: number; denominator: number }>(p);
+      expect(d.numerator).toBeGreaterThanOrEqual(1);
+      expect(d.numerator).toBeLessThan(d.denominator);
+      expect(p.answer!.value).toBe(`${d.numerator}/${d.denominator}`);
+    });
+  });
+
+  it('fraction-of-whole: answer = whole × numerator ÷ denominator, always integer', () => {
+    forSeeds('fraction-of-whole', 40, 'G4', (p) => {
+      const d = data<{ numerator: number; denominator: number; whole: number; answer: number }>(p);
+      expect(d.whole % d.denominator).toBe(0);
+      const expected = (d.whole * d.numerator) / d.denominator;
+      expect(Number.isInteger(expected)).toBe(true);
+      expect(d.answer).toBe(expected);
+      expect(p.answer!.value).toBe(String(expected));
+    });
+  });
+
+  it('fraction-compare: relation matches cross-multiplication, fractions unequal', () => {
+    forSeeds('fraction-compare', 40, 'G4', (p) => {
+      const d = data<{ n1: number; d1: number; n2: number; d2: number; relation: string }>(p);
+      expect(d.n1 * d.d2).not.toBe(d.n2 * d.d1);
+      const expected = d.n1 * d.d2 > d.n2 * d.d1 ? '>' : '<';
+      expect(d.relation).toBe(expected);
+      expect(p.answer!.value).toBe(expected);
+    });
+  });
+
+  it('clock-read: valid time, minute on step, zero-padded answer', () => {
+    forSeeds('clock-read', 30, 'G2', (p) => {
+      const d = data<{ hour: number; minute: number }>(p);
+      expect(d.hour).toBeGreaterThanOrEqual(1);
+      expect(d.hour).toBeLessThanOrEqual(12);
+      expect(d.minute).toBeGreaterThanOrEqual(0);
+      expect(d.minute).toBeLessThan(60);
+      expect(p.answer!.value).toBe(`${d.hour}:${String(d.minute).padStart(2, '0')}`);
+    });
+  });
+
+  it('elapsed-time: end − start === elapsed, same day, formatted answer', () => {
+    forSeeds('elapsed-time', 30, 'G3', (p) => {
+      const d = data<{ startMinutes: number; endMinutes: number; elapsedMinutes: number }>(p);
+      expect(d.endMinutes - d.startMinutes).toBe(d.elapsedMinutes);
+      expect(d.elapsedMinutes).toBeGreaterThan(0);
+      const expected =
+        d.elapsedMinutes >= 60
+          ? `${Math.floor(d.elapsedMinutes / 60)} h${d.elapsedMinutes % 60 ? ` ${d.elapsedMinutes % 60} min` : ''}`
+          : `${d.elapsedMinutes} min`;
+      expect(p.answer!.value).toBe(expected);
+    });
+  });
+
   it('add-vertical with carry=always carries in the ones column', () => {
     for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
       const spec = baseSpec({

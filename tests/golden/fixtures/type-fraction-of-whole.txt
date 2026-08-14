@@ -1,0 +1,11 @@
+# fraction-of-whole @ G3
+1oet482 | <div class="fact"><span class="frac-stack">2<span class="frac-line">4</span></span><span class="fact-nums"> of 16 =</span><span class="blank">&#8203;</span></div>
+19vlb02 | <div class="fact"><span class="frac-stack">1<span class="frac-line">4</span></span><span class="fact-nums"> of 4 =</span><span class="blank">&#8203;</span></div>
+1g656mk | <div class="fact"><span class="frac-stack">1<span class="frac-line">3</span></span><span class="fact-nums"> of 18 =</span><span class="blank">&#8203;</span></div>
+106nqn3 | <div class="fact"><span class="frac-stack">3<span class="frac-line">4</span></span><span class="fact-nums"> of 16 =</span><span class="blank">&#8203;</span></div>
+1b2e1t6 | <div class="fact"><span class="frac-stack">1<span class="frac-line">2</span></span><span class="fact-nums"> of 2 =</span><span class="blank">&#8203;</span></div>
+106nqn3 | <div class="fact"><span class="frac-stack">3<span class="frac-line">4</span></span><span class="fact-nums"> of 16 =</span><span class="blank">&#8203;</span></div>
+o7yye | <div class="fact"><span class="frac-stack">3<span class="frac-line">4</span></span><span class="fact-nums"> of 24 =</span><span class="blank">&#8203;</span></div>
+1p003av | <div class="fact"><span class="frac-stack">2<span class="frac-line">3</span></span><span class="fact-nums"> of 18 =</span><span class="blank">&#8203;</span></div>
+1naupg6 | <div class="fact"><span class="frac-stack">2<span class="frac-line">4</span></span><span class="fact-nums"> of 12 =</span><span class="blank">&#8203;</span></div>
+17kg6ed | <div class="fact"><span class="frac-stack">1<span class="frac-line">2</span></span><span class="fact-nums"> of 10 =</span><span class="blank">&#8203;</span></div>
