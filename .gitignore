@@ -6,3 +6,6 @@ dist/
 
 # plan files are local working docs, never committed
 .plans/
+
+# direnv local cache
+.direnv/
