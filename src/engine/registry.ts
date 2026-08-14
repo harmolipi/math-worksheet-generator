@@ -4,11 +4,13 @@
 import type { QuestionType } from './spec';
 import { countingTypes } from '../content/counting';
 import { addsubTypes } from '../content/addsub';
+import { multdivTypes } from '../content/multdiv';
 import { manualTypes } from '../content/manual';
 
 export const allTypes: QuestionType[] = [
   ...countingTypes,
   ...addsubTypes,
+  ...multdivTypes,
   ...manualTypes,
 ];
 

@@ -1,0 +1,11 @@
+# div-facts @ G3
+qdogu | <div class="fact"><span class="fact-nums">36 ÷ 4 =</span><span class="blank">&#8203;</span></div>
+1sl5u8e | <div class="fact"><span class="fact-nums">30 ÷ 5 =</span><span class="blank">&#8203;</span></div>
+9w4hqt | <div class="fact"><span class="fact-nums">6 ÷ 2 =</span><span class="blank">&#8203;</span></div>
+1mdba8x | <div class="fact"><span class="fact-nums">25 ÷ 5 =</span><span class="blank">&#8203;</span></div>
+1guh6h8 | <div class="fact"><span class="fact-nums">4 ÷ 2 =</span><span class="blank">&#8203;</span></div>
+qdogu | <div class="fact"><span class="fact-nums">36 ÷ 4 =</span><span class="blank">&#8203;</span></div>
+1es4q7x | <div class="fact"><span class="fact-nums">32 ÷ 4 =</span><span class="blank">&#8203;</span></div>
+12tp2v3 | <div class="fact"><span class="fact-nums">45 ÷ 5 =</span><span class="blank">&#8203;</span></div>
+1mdba8x | <div class="fact"><span class="fact-nums">25 ÷ 5 =</span><span class="blank">&#8203;</span></div>
+b4wsoz | <div class="fact"><span class="fact-nums">40 ÷ 5 =</span><span class="blank">&#8203;</span></div>

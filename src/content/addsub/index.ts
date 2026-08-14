@@ -5,6 +5,7 @@ import type { QuestionType } from '../../engine/spec';
 import { addFacts } from './add-facts';
 import { subFacts } from './sub-facts';
 import { addVertical } from './add-vertical';
+import { subVertical } from './sub-vertical';
 
 export const addsubSubject = {
   id: 'addsub',
@@ -12,4 +13,4 @@ export const addsubSubject = {
   gradeRange: ['K', 'G5'] as const,
 };
 
-export const addsubTypes: QuestionType[] = [addFacts, subFacts, addVertical];
+export const addsubTypes: QuestionType[] = [addFacts, subFacts, addVertical, subVertical];

@@ -2,7 +2,7 @@
 
 **Source of truth for progress.** Tick items here AND in `.plans/durable-plan.md` as work completes. Each phase ends deployed + print-verified.
 
-Current status: **Phase 1 in progress** — engine core ✓, manual type (engine) ✓, 10 content types + 20 icons ✓. Next: print pipeline (assemble + sheet CSS + preview + print root).
+Current status: **Phase 2 in progress** — Phase 1 shipped: engine core, manual type, 10 content types + 20 icons, print pipeline (PDF page count verified in Chrome), config UI ("Worksheet Desk"), golden/property/unit test suite. Phase 1 checkpoint partially green: Chrome print verified; Safari/Firefox manual pass pending (docs/qa-print.md).
 
 ## Phase 0 — Scaffold
 

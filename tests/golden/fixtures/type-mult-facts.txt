@@ -1,0 +1,11 @@
+# mult-facts @ G2
+s92u1c | <div class="fact"><span class="fact-nums">5 × 4 =</span><span class="blank">&#8203;</span></div>
+1npb6rk | <div class="fact"><span class="fact-nums">4 × 5 =</span><span class="blank">&#8203;</span></div>
+we84v9 | <div class="fact"><span class="fact-nums">2 × 2 =</span><span class="blank">&#8203;</span></div>
+3oilr7 | <div class="fact"><span class="fact-nums">3 × 5 =</span><span class="blank">&#8203;</span></div>
+19upy2q | <div class="fact"><span class="fact-nums">5 × 5 =</span><span class="blank">&#8203;</span></div>
+s92u1c | <div class="fact"><span class="fact-nums">5 × 4 =</span><span class="blank">&#8203;</span></div>
+19upy2q | <div class="fact"><span class="fact-nums">5 × 5 =</span><span class="blank">&#8203;</span></div>
+3oilr7 | <div class="fact"><span class="fact-nums">3 × 5 =</span><span class="blank">&#8203;</span></div>
+116gkg6 | <div class="fact"><span class="fact-nums">3 × 3 =</span><span class="blank">&#8203;</span></div>
+11fyn1z | <div class="fact"><span class="fact-nums">3 × 4 =</span><span class="blank">&#8203;</span></div>

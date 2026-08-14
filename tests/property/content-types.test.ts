@@ -165,6 +165,57 @@ describe('content type property tests (answers by construction)', () => {
     });
   });
 
+  it('count-and-write: icon count === answer', () => {
+    forSeeds('count-and-write', 30, 'K', (p) => {
+      const d = data<{ count: number; icons: string[] }>(p);
+      expect(d.icons).toHaveLength(d.count);
+      expect(p.answer!.value).toBe(String(d.count));
+    });
+  });
+
+  it('sub-vertical: top − bottom === answer, never negative, borrow constraints hold', () => {
+    forSeeds('sub-vertical', 40, 'G3', (p) => {
+      const d = data<{ top: number; bottom: number; diff: number; digitCount: number }>(p);
+      expect(d.top - d.bottom).toBe(d.diff);
+      expect(d.diff).toBeGreaterThanOrEqual(0);
+      expect(p.answer!.value).toBe(String(d.diff));
+      expect(d.top).toBeLessThan(10 ** d.digitCount);
+      expect(d.bottom).toBeLessThan(10 ** d.digitCount);
+    });
+  });
+
+  it('sub-vertical with borrow=none never borrows', () => {
+    for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
+      const spec = baseSpec({
+        seed: `sub-noborrow-${seed}`,
+        gradeBand: 'G2',
+        sections: [{ typeIds: ['sub-vertical'], counts: [10], params: { 'sub-vertical': { borrow: 'none' } } }],
+      });
+      for (const p of generateSections(spec, typeMap)[0].problems) {
+        const d = data<{ top: number; bottom: number; diff: number }>(p);
+        expect(d.top - d.bottom).toBe(d.diff);
+        expect(d.top % 10).toBeGreaterThanOrEqual(d.bottom % 10);
+      }
+    }
+  });
+
+  it('mult-facts: a × b === answer', () => {
+    forSeeds('mult-facts', 40, 'G3', (p) => {
+      const d = data<{ a: number; b: number; product: number }>(p);
+      expect(d.a * d.b).toBe(d.product);
+      expect(p.answer!.value).toBe(String(d.product));
+    });
+  });
+
+  it('div-facts: quotient is whole, dividend ÷ divisor === answer', () => {
+    forSeeds('div-facts', 40, 'G3', (p) => {
+      const d = data<{ dividend: number; divisor: number; quotient: number }>(p);
+      expect(d.dividend % d.divisor).toBe(0);
+      expect(d.dividend / d.divisor).toBe(d.quotient);
+      expect(p.answer!.value).toBe(String(d.quotient));
+    });
+  });
+
   it('add-vertical with carry=always carries in the ones column', () => {
     for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
       const spec = baseSpec({

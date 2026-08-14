@@ -9,6 +9,7 @@ import { whichHasMore } from './which-has-more';
 import { missingNumberSequence } from './missing-number-sequence';
 import { numberTracing } from './number-tracing';
 import { tenFrame } from './ten-frame';
+import { countAndWrite } from './count-and-write';
 
 export const countingSubject = {
   id: 'counting',
@@ -24,4 +25,5 @@ export const countingTypes: QuestionType[] = [
   missingNumberSequence,
   numberTracing,
   tenFrame,
+  countAndWrite,
 ];
