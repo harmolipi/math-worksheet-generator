@@ -12,12 +12,16 @@
   } from '../engine';
   import { sheetCss } from '../render/sheet-css';
   import {
+    addManualQuestion,
     addSection,
     addTypeToSection,
+    manualQuestions,
+    moveManualQuestion,
     newNumbers,
     patchHeader,
     patchLayout,
     patchOptions,
+    removeManualQuestion,
     removeSection,
     removeTypeFromSection,
     setGradeBand,
@@ -27,7 +31,9 @@
     shareLink,
     store,
     toggleSets,
+    updateManualQuestion,
   } from './state.svelte';
+  import type { ManualQuestion } from '../content/manual/manual';
 
   const spec = $derived(store.spec);
 
@@ -95,6 +101,7 @@
     const problem = type.generate(createRng(7), params, {
       gradeLevel: GRADE_LEVEL[spec.gradeBand],
       index: 0,
+      typeIndex: 0,
     });
     return type.render(problem);
   }
@@ -199,25 +206,123 @@
             ×
           </button>
           <span class="type-name">{type?.name ?? typeId}</span>
-          <div class="stepper">
-            <button
-              type="button"
-              aria-label={`Fewer ${type?.name ?? typeId} problems`}
-              onclick={() => setTypeCount(si, typeId, section.counts[at] - 1)}
-            >
-              −
-            </button>
-            <span class="stepper-value">{section.counts[at]}</span>
-            <button
-              type="button"
-              aria-label={`More ${type?.name ?? typeId} problems`}
-              onclick={() => setTypeCount(si, typeId, section.counts[at] + 1)}
-            >
-              +
-            </button>
-          </div>
+          {#if type?.id === 'manual'}
+            <!-- Count is managed by the question editor below. -->
+            <span class="stepper-value">{section.counts[at]} question{section.counts[at] === 1 ? '' : 's'}</span>
+          {:else}
+            <div class="stepper">
+              <button
+                type="button"
+                aria-label={`Fewer ${type?.name ?? typeId} problems`}
+                onclick={() => setTypeCount(si, typeId, section.counts[at] - 1)}
+              >
+                −
+              </button>
+              <span class="stepper-value">{section.counts[at]}</span>
+              <button
+                type="button"
+                aria-label={`More ${type?.name ?? typeId} problems`}
+                onclick={() => setTypeCount(si, typeId, section.counts[at] + 1)}
+              >
+                +
+              </button>
+            </div>
+          {/if}
         </div>
       {/each}
+
+      {#if section.typeIds.includes('manual')}
+        {@const questions = manualQuestions(si)}
+        <div class="manual-editor">
+          <div class="manual-editor-title">My questions</div>
+          {#each questions as q, qi (qi)}
+            <div class="manual-editor-row">
+              <div class="manual-editor-head">
+                <span class="manual-editor-num">Q{qi + 1}</span>
+                <span class="manual-editor-moves">
+                  <button
+                    type="button"
+                    disabled={qi === 0}
+                    aria-label={`Move question ${qi + 1} up`}
+                    onclick={() => moveManualQuestion(si, qi, -1)}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    disabled={qi === questions.length - 1}
+                    aria-label={`Move question ${qi + 1} down`}
+                    onclick={() => moveManualQuestion(si, qi, 1)}
+                  >
+                    ↓
+                  </button>
+                  <button
+                    type="button"
+                    class="icon-btn"
+                    disabled={questions.length === 1}
+                    aria-label={`Remove question ${qi + 1}`}
+                    onclick={() => removeManualQuestion(si, qi)}
+                  >
+                    ×
+                  </button>
+                </span>
+              </div>
+              <textarea
+                class="manual-prompt-input"
+                rows="2"
+                maxlength="300"
+                placeholder="Type the problem, e.g. 34 + 57 ="
+                value={q.prompt ?? ''}
+                oninput={(e) => updateManualQuestion(si, qi, { prompt: e.currentTarget.value })}
+              ></textarea>
+              <p class="manual-hint">Vertical layout: one row per line (34 ↵ + 57).</p>
+              <div class="manual-editor-fields">
+                <input
+                  class="manual-answer-input"
+                  type="text"
+                  maxlength="200"
+                  placeholder="Answer (shows on the key)"
+                  value={q.answer ?? ''}
+                  oninput={(e) => updateManualQuestion(si, qi, { answer: e.currentTarget.value })}
+                />
+                <select
+                  aria-label={`Layout for question ${qi + 1}`}
+                  value={q.layout ?? 'horizontal'}
+                  onchange={(e) =>
+                    updateManualQuestion(si, qi, { layout: e.currentTarget.value as ManualQuestion['layout'] })}
+                >
+                  <option value="horizontal">Horizontal</option>
+                  <option value="vertical">Vertical</option>
+                </select>
+                <select
+                  aria-label={`Work space for question ${qi + 1}`}
+                  value={q.workspace ?? ''}
+                  onchange={(e) =>
+                    updateManualQuestion(si, qi, {
+                      workspace:
+                        e.currentTarget.value === ''
+                          ? undefined
+                          : (e.currentTarget.value as ManualQuestion['workspace']),
+                    })}
+                >
+                  <option value="">Work space: sheet</option>
+                  <option value="none">No work space</option>
+                  <option value="box">Box</option>
+                  <option value="grid">Grid</option>
+                </select>
+              </div>
+            </div>
+          {/each}
+          <button
+            type="button"
+            class="link-btn"
+            disabled={questions.length >= 60}
+            onclick={() => addManualQuestion(si)}
+          >
+            + Add question
+          </button>
+        </div>
+      {/if}
 
       {#if pickerOpen === si}
         <div class="type-picker">

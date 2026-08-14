@@ -103,8 +103,12 @@ export interface ParamSpec {
 export interface GenCtx {
   /** Target numeric grade level for this problem. */
   gradeLevel: number;
-  /** Position within the section (0-based) — types like manual use it. */
+  /** Position within the section (0-based). */
   index: number;
+  /** How many times this type has generated so far in the section (0-based)
+   *  — types with per-question data (manual) use it; equals `index` when the
+   *  type is alone in its section. */
+  typeIndex: number;
 }
 
 export interface QuestionType {

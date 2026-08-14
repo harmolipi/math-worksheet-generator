@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { generateSections } from '../../src/engine/generate';
 import { packSheet } from '../../src/engine/pack';
 import { decodeSpec, encodeSpec } from '../../src/engine/serialize';
+import { typeMap } from '../../src/engine/registry';
 import { registry } from '../helpers/registry';
 import { baseSpec } from '../helpers/fake-type';
 
@@ -104,6 +105,31 @@ describe('manual question type', () => {
       registry,
     );
     expect(a).toEqual(b);
+  });
+
+  it('keeps question order when interleaved with generated types', () => {
+    // Regression: the manual generator used the section-wide ctx.index to
+    // pick questions, so interleaving shifted every question (round-robin).
+    const questions = [
+      { prompt: 'Q1', answer: '1' },
+      { prompt: 'Q2', answer: '2' },
+      { prompt: 'Q3', answer: '3' },
+    ];
+    const spec = baseSpec({
+      seed: 'manual-mixed',
+      sections: [
+        {
+          typeIds: ['add-facts', 'manual'],
+          counts: [2, 3],
+          params: { manual: { questions } },
+        },
+      ],
+    });
+    const generated = generateSections(spec, typeMap)[0].problems;
+    const manuals = generated.filter((p) => p.typeId === 'manual');
+    expect(manuals).toHaveLength(3);
+    expect(manuals.map((p) => (p.data as { prompt: string }).prompt)).toEqual(['Q1', 'Q2', 'Q3']);
+    expect(manuals.map((p) => p.answer?.value)).toEqual(['1', '2', '3']);
   });
 
   it('validateParams rejects bad manual questions', () => {

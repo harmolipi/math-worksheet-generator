@@ -11,6 +11,7 @@ import {
   type SectionSpec,
   type WorksheetSpec,
 } from '../engine';
+import type { ManualQuestion } from '../content/manual/manual';
 import { defaultSpec, randomSeed } from './spec-factory';
 
 // Exported as a $state store: components read `store.spec` reactively.
@@ -54,7 +55,14 @@ export function addTypeToSection(index: number, typeId: string): void {
   const section = store.spec.sections[index];
   if (!section.typeIds.includes(typeId) && section.typeIds.length < 8) {
     section.typeIds.push(typeId);
-    section.counts.push(5);
+    if (typeId === 'manual') {
+      // Manual sections start with one empty question; count tracks the list.
+      section.params ??= {};
+      section.params['manual'] = { questions: [{ prompt: '', layout: 'horizontal' }] };
+      section.counts.push(1);
+    } else {
+      section.counts.push(5);
+    }
   }
 }
 
@@ -64,6 +72,9 @@ export function removeTypeFromSection(index: number, typeId: string): void {
   if (at >= 0) {
     section.typeIds.splice(at, 1);
     section.counts.splice(at, 1);
+    // Params for a removed type would fail validation ("params for a type
+    // not in this section").
+    if (section.params) delete section.params[typeId];
   }
 }
 
@@ -75,6 +86,67 @@ export function setTypeCount(index: number, typeId: string, count: number): void
 
 export function setSectionDifficulty(index: number, difficulty: SectionSpec['difficulty']): void {
   store.spec.sections[index].difficulty = difficulty;
+}
+
+// ── Manual question editor ───────────────────────────────────────────────
+// The `manual` type's params carry the teacher's questions. Every mutation
+// keeps section.counts in sync with the list length (the manual generator
+// emits one problem per question).
+
+function manualSlot(section: SectionSpec): { questions: ManualQuestion[] } {
+  section.params ??= {};
+  section.params['manual'] ??= { questions: [] };
+  return section.params['manual'] as { questions: ManualQuestion[] };
+}
+
+export function manualQuestions(sectionIndex: number): ManualQuestion[] {
+  return manualSlot(store.spec.sections[sectionIndex]).questions;
+}
+
+export function addManualQuestion(sectionIndex: number): void {
+  const section = store.spec.sections[sectionIndex];
+  const at = section.typeIds.indexOf('manual');
+  if (at < 0) return;
+  const { questions } = manualSlot(section);
+  if (questions.length >= 60) return;
+  questions.push({ prompt: '', layout: 'horizontal' });
+  section.counts[at] = questions.length;
+}
+
+export function updateManualQuestion(
+  sectionIndex: number,
+  qIndex: number,
+  patch: Partial<ManualQuestion>,
+): void {
+  const section = store.spec.sections[sectionIndex];
+  const { questions } = manualSlot(section);
+  const q = questions[qIndex];
+  if (!q) return;
+  if (patch.workspace === undefined) {
+    delete q.workspace; // '' in the select means "use the sheet default"
+  } else {
+    q.workspace = patch.workspace;
+  }
+  if (patch.prompt !== undefined) q.prompt = patch.prompt;
+  if (patch.answer !== undefined) q.answer = patch.answer === '' ? undefined : patch.answer;
+  if (patch.layout !== undefined) q.layout = patch.layout;
+}
+
+export function removeManualQuestion(sectionIndex: number, qIndex: number): void {
+  const section = store.spec.sections[sectionIndex];
+  const { questions } = manualSlot(section);
+  if (questions.length <= 1) return; // a section must keep at least one
+  questions.splice(qIndex, 1);
+  const at = section.typeIds.indexOf('manual');
+  if (at >= 0) section.counts[at] = questions.length;
+}
+
+export function moveManualQuestion(sectionIndex: number, qIndex: number, dir: -1 | 1): void {
+  const section = store.spec.sections[sectionIndex];
+  const { questions } = manualSlot(section);
+  const to = qIndex + dir;
+  if (to < 0 || to >= questions.length) return;
+  [questions[qIndex], questions[to]] = [questions[to], questions[qIndex]];
 }
 
 export function patchLayout(patch: Partial<LayoutSpec>): void {

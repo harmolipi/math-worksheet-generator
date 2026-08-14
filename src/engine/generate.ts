@@ -71,6 +71,10 @@ export function generateSections(
   for (const section of spec.sections) {
     const problems: Problem[] = [];
     const seen = new Set<string>();
+    /** Per-type generation ordinal within the section (manual maps it to its
+     *  question list — must not use the section-wide index, which shifts when
+     *  types interleave). */
+    const typeCounts = new Map<string, number>();
 
     // Expand (typeId, count) pairs into a round-robin interleaved order.
     const entries: string[] = [];
@@ -94,7 +98,9 @@ export function generateSections(
 
       const level = resolveLevel(rng, spec, difficulty);
       const params = resolveParams(type, level, section.params?.[typeId]);
-      const ctx = { gradeLevel: level, index: problems.length };
+      const typeIndex = typeCounts.get(typeId) ?? 0;
+      typeCounts.set(typeId, typeIndex + 1);
+      const ctx = { gradeLevel: level, index: problems.length, typeIndex };
 
       let problem = type.generate(rng, params, ctx);
       let retries = 0;

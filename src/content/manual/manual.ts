@@ -51,7 +51,9 @@ export const manualType: QuestionType = {
 
   generate(_rng, params, ctx): Problem {
     const questions = questionsFrom(params);
-    const q = questions[ctx.index] ?? questions[questions.length - 1] ?? {
+    // ctx.typeIndex (not ctx.index): the ordinal within this type, which
+    // stays correct when manual questions interleave with generated ones.
+    const q = questions[ctx.typeIndex] ?? questions[questions.length - 1] ?? {
       prompt: '',
     };
     const prompt = (q.prompt ?? '').trim();
