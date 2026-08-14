@@ -7,4 +7,22 @@
 
 body {
   margin: 0;
+  background: #f2f0ec;
+  color: #23211d;
+  font-family: 'Karla', sans-serif;
+}
+
+/* Print: hide the app chrome, show only the print root. */
+.print-only {
+  display: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block;
+  }
 }

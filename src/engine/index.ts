@@ -8,4 +8,5 @@ export * from './validate';
 export * from './serialize';
 export * from './generate';
 export * from './pack';
+export * from './assemble';
 export * from './registry';

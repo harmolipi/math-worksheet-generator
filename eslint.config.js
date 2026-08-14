@@ -8,6 +8,25 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...eslintPluginSvelte.configs['flat/recommended'],
+  // TypeScript inside .svelte files (type annotations, generics).
+  {
+    files: ['**/*.svelte'],
+    languageOptions: {
+      parserOptions: {
+        parser: tseslint.parser,
+        extraFileExtensions: ['.svelte'],
+      },
+    },
+  },
+  // {@html} is the app's injection point for engine-generated sheet markup —
+  // ALL user-supplied text (titles, manual prompts, answers) is escaped at
+  // render time (src/render/html.ts, covered by tests/unit/manual.test.ts).
+  {
+    files: ['**/*.svelte'],
+    rules: {
+      'svelte/no-at-html-tags': 'off',
+    },
+  },
   {
     files: ['**/*.ts', '**/*.svelte'],
     languageOptions: {
