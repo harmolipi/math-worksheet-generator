@@ -1,0 +1,54 @@
+// Missing factor: a × ___ = product — factor families, by construction.
+
+import { fingerprintOf } from '../../engine/fingerprint';
+import type { Problem, QuestionType } from '../../engine/spec';
+import { blank } from '../../render/problem';
+
+interface MissingFactorData extends Record<string, unknown> {
+  a: number;
+  b: number;
+  product: number;
+}
+
+export const missingFactor: QuestionType = {
+  id: 'missing-factor',
+  subject: 'multdiv',
+  name: 'Missing factor',
+  description: 'Fill in the missing number in a multiplication fact.',
+  gradeRange: ['G3', 'G4'],
+  difficultyPresets: {
+    G3: { maxFactor: 9 },
+    G4: { maxFactor: 12 },
+  },
+  params: [
+    { key: 'maxFactor', label: 'Biggest factor', type: 'int', min: 2, max: 12, default: 9 },
+  ],
+
+  generate(rng, params): Problem {
+    const maxFactor = params.maxFactor as number;
+    const a = rng.int(2, maxFactor);
+    const b = rng.int(2, maxFactor);
+    const product = a * b;
+
+    const data: MissingFactorData = { a, b, product };
+    return {
+      typeId: 'missing-factor',
+      index: 0,
+      gradeLevel: 0,
+      data,
+      answer: { value: String(b) },
+      fingerprint: fingerprintOf(['missing-factor', data.a, data.b, data.product]),
+    };
+  },
+
+  render(p): string {
+    const { a, product } = p.data as unknown as MissingFactorData;
+    return (
+      `<div class="fact">` +
+      `<span class="fact-nums">${a} × </span>${blank()}<span class="fact-nums"> = ${product}</span>` +
+      `</div>`
+    );
+  },
+
+  estHeightPt: () => 52,
+};

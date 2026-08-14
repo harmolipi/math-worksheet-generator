@@ -216,6 +216,81 @@ describe('content type property tests (answers by construction)', () => {
     });
   });
 
+  it('mult-vertical: top × factor === answer', () => {
+    forSeeds('mult-vertical', 40, 'G4', (p) => {
+      const d = data<{ top: number; factor: number; product: number }>(p);
+      expect(d.top * d.factor).toBe(d.product);
+      expect(p.answer!.value).toBe(String(d.product));
+    });
+  });
+
+  it('missing-factor: a × answer === product', () => {
+    forSeeds('missing-factor', 40, 'G3', (p) => {
+      const d = data<{ a: number; b: number; product: number }>(p);
+      expect(d.a * d.b).toBe(d.product);
+      expect(p.answer!.value).toBe(String(d.b));
+    });
+  });
+
+  it('mult-of-10: multiple of 10 × factor === answer', () => {
+    forSeeds('mult-of-10', 40, 'G4', (p) => {
+      const d = data<{ a: number; b: number; product: number }>(p);
+      expect(d.a % 10).toBe(0);
+      expect(d.a * d.b).toBe(d.product);
+      expect(p.answer!.value).toBe(String(d.product));
+    });
+  });
+
+  it('base10-blocks: flats×100 + rods×10 + units === answer', () => {
+    forSeeds('base10-blocks', 30, 'G2', (p) => {
+      const d = data<{ number: number; flats: number; rods: number; units: number }>(p);
+      expect(d.flats * 100 + d.rods * 10 + d.units).toBe(d.number);
+      expect(d.flats + d.rods + d.units).toBeGreaterThan(0);
+      expect(p.answer!.value).toBe(String(d.number));
+    });
+  });
+
+  it('expanded-form: recomposed expanded parts equal the number', () => {
+    forSeeds('expanded-form', 40, 'G2', (p) => {
+      const d = data<{ number: number; expanded: string }>(p);
+      const sum = d.expanded.split(' + ').reduce((acc, part) => acc + Number(part), 0);
+      expect(sum).toBe(d.number);
+      expect(p.answer!.value).toBe(d.expanded);
+    });
+  });
+
+  it('value-of-digit: answer === underlined digit × place', () => {
+    forSeeds('value-of-digit', 40, 'G3', (p) => {
+      const d = data<{ number: number; digit: number; place: number; targetIndex: number }>(p);
+      expect(Number(p.answer!.value)).toBe(d.digit * d.place);
+      // the underlined digit actually appears at that place in the number
+      const ds = String(d.number).split('').map(Number);
+      expect(ds[d.targetIndex]).toBe(d.digit);
+      expect(10 ** (ds.length - 1 - d.targetIndex)).toBe(d.place);
+    });
+  });
+
+  it('compare-numbers: relation matches the numbers', () => {
+    forSeeds('compare-numbers', 40, 'G2', (p) => {
+      const d = data<{ a: number; b: number; relation: string }>(p);
+      const expected = d.a > d.b ? '>' : d.a < d.b ? '<' : '=';
+      expect(d.relation).toBe(expected);
+      expect(p.answer!.value).toBe(expected);
+    });
+  });
+
+  it('odd-even: listed matches have the right parity', () => {
+    forSeeds('odd-even', 30, 'G2', (p) => {
+      const d = data<{ numbers: number[]; target: 'odd' | 'even' }>(p);
+      expect(d.numbers).toHaveLength(6);
+      const matches = p.answer!.value === '' ? [] : p.answer!.value.split(', ').map(Number);
+      for (const n of matches) {
+        expect(n % 2).toBe(d.target === 'odd' ? 1 : 0);
+        expect(d.numbers).toContain(n);
+      }
+    });
+  });
+
   it('add-vertical with carry=always carries in the ones column', () => {
     for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
       const spec = baseSpec({

@@ -1,0 +1,11 @@
+# value-of-digit @ G1
+p0cu0s | <div class="value-of-digit"><div class="prompt">What is the <b>9</b> worth in <b>9<u class="digit-underlined">9</u></b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+pdk4gr | <div class="value-of-digit"><div class="prompt">What is the <b>5</b> worth in <b>6<u class="digit-underlined">5</u></b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+md9hrj | <div class="value-of-digit"><div class="prompt">What is the <b>2</b> worth in <b>2<u class="digit-underlined">2</u></b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+wnudbf | <div class="value-of-digit"><div class="prompt">What is the <b>2</b> worth in <b>6<u class="digit-underlined">2</u></b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+jq2stp | <div class="value-of-digit"><div class="prompt">What is the <b>5</b> worth in <b><u class="digit-underlined">5</u>0</b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+p0cu0s | <div class="value-of-digit"><div class="prompt">What is the <b>9</b> worth in <b>9<u class="digit-underlined">9</u></b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+z7ga0x | <div class="value-of-digit"><div class="prompt">What is the <b>7</b> worth in <b>8<u class="digit-underlined">7</u></b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+1ce70hg | <div class="value-of-digit"><div class="prompt">What is the <b>4</b> worth in <b>9<u class="digit-underlined">4</u></b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+jq2stp | <div class="value-of-digit"><div class="prompt">What is the <b>5</b> worth in <b><u class="digit-underlined">5</u>0</b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>
+f9qums | <div class="value-of-digit"><div class="prompt">What is the <b>6</b> worth in <b>9<u class="digit-underlined">6</u></b>?</div><div class="count-answer"><span class="write-box">&#8203;</span></div></div>

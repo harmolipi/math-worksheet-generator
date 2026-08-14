@@ -1,0 +1,11 @@
+# mult-of-10 @ G3
+64ot5k | <div class="fact"><span class="fact-nums">10 × 4 =</span><span class="blank">&#8203;</span></div>
+199996o | <div class="fact"><span class="fact-nums">10 × 5 =</span><span class="blank">&#8203;</span></div>
+1yutp8w | <div class="fact"><span class="fact-nums">10 × 2 =</span><span class="blank">&#8203;</span></div>
+1efw3r4 | <div class="fact"><span class="fact-nums">10 × 3 =</span><span class="blank">&#8203;</span></div>
+199996o | <div class="fact"><span class="fact-nums">10 × 5 =</span><span class="blank">&#8203;</span></div>
+64ot5k | <div class="fact"><span class="fact-nums">10 × 4 =</span><span class="blank">&#8203;</span></div>
+199996o | <div class="fact"><span class="fact-nums">10 × 5 =</span><span class="blank">&#8203;</span></div>
+1efw3r4 | <div class="fact"><span class="fact-nums">10 × 3 =</span><span class="blank">&#8203;</span></div>
+1yutp8w | <div class="fact"><span class="fact-nums">10 × 2 =</span><span class="blank">&#8203;</span></div>
+199996o | <div class="fact"><span class="fact-nums">10 × 5 =</span><span class="blank">&#8203;</span></div>
