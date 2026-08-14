@@ -4,7 +4,7 @@
 
 Current status: **Phase 2 in progress** — Phase 1 shipped: engine core, manual type, 10 content types + 20 icons, print pipeline (PDF page count verified in Chrome), config UI ("Worksheet Desk"), golden/property/unit test suite (132 tests). Phase 1 checkpoint partially green: Chrome print verified; Safari/Firefox manual pass pending (docs/qa-print.md).
 
-Phase 2 progress: content catalog at 21 types — counting 8 (incl. count-and-write), addsub 4 (incl. sub-vertical), multdiv 5 (facts, vertical, missing-factor, mult-of-10), placevalue 5 (base-10 blocks, expanded form, value-of-digit, compare, odd-even), fractions 3 (shade, of-whole, compare), time 2 (clock-read, elapsed), manual 1. Remaining: money, measurement, geometry, patterns, color-by-number, more icons, then teacher features.
+Phase 2 progress: content catalog at 34 types + 53 icons — counting 8, addsub 4, multdiv 5, placevalue 5, fractions 3, time 2, money 3 (coins-count, making-change, money-add), measurement 3 (ruler-read, compare-lengths, area-perimeter), geometry 5 (identify, sides-corners, match, symmetry, classify), patterns 1 (next-in-pattern), colorByNumber 1, manual 1. Content expansion DONE. Remaining: teacher features (Sets A–F, manual editor UI, URL share + favorites, largePrint/inkSaver polish, hundreds chart).
 
 ## Phase 0 — Scaffold
 
@@ -21,15 +21,15 @@ Phase 2 progress: content catalog at 21 types — counting 8 (incl. count-and-wr
 - [x] First 10 types (counting: count-objects, number-recognition, quantity-matching, which-has-more, missing-number-sequence, number-tracing, ten-frame; addsub: add-facts, sub-facts, add-vertical) + 20 icons
 - [x] sheet-css (Letter+A4), scaled preview, print-root, header (title/name/date), answer key list mode, in-flow page numbers — print-verified: headless Chrome PDF page count == engine prediction (overflow lint overlay → UI task)
 - [x] UI v1: grade-band picker, type cards with live samples, options panel, seed + regenerate + copy link, Print hints ("Worksheet Desk" design via frontend-design skill)
-- [ ] Tests: golden, property, purity, round-trip, packing, validation
+- [x] Tests: golden, property, purity, round-trip, packing, validation
 - [ ] Checkpoint: 3+ types print correctly on Chrome/Safari/Firefox (qa-print.md partially filled), deployed
 
 ## Phase 2 — Content expansion + teacher features
 
-- [ ] ~24 more types (multdiv, placevalue, fractions, time, money, measurement, geometry, patterns, color-by-number) + 28 icons + per-band difficulty presets
+- [x] ~24 more types (multdiv, placevalue, fractions, time, money, measurement, geometry, patterns, color-by-number) + 28 icons + per-band difficulty presets
 - [ ] Teacher features: Sets A–F variants, mixed difficulty + stars, URL share + raw-spec editor, favorites, largePrint, inkSaver, hundreds chart
 - [ ] Manual question editor UI (prompt/answer/workspace list editor, horizontal + vertical layout, mixing with generated)
-- [ ] Per-type property tests
+- [x] Per-type property tests
 - [ ] Checkpoint: full pre-K–5 core catalog usable; variant sets print with correct page counts; deployed
 
 ## Phase 3 — Word problems + polish

@@ -111,12 +111,20 @@ button {
 }
 
 /* ── config rail ────────────────────────────────────────────── */
+/* Sticky: the rail follows the teacher while they scroll the preview.
+   When the rail itself is taller than the viewport it scrolls internally,
+   so the seed/print controls are never lost below the fold. */
 
 .rail {
   padding: 18px 18px 60px;
   background: var(--paper);
   border-right: 1px solid var(--hairline);
-  min-height: calc(100vh - 58px);
+  position: sticky;
+  top: 58px;
+  z-index: 10;
+  max-height: calc(100vh - 58px);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .group {
@@ -591,7 +599,9 @@ button {
   }
 
   .rail {
-    min-height: auto;
+    position: static;
+    max-height: none;
+    overflow: visible;
     border-right: none;
     border-bottom: 1px solid var(--hairline);
   }

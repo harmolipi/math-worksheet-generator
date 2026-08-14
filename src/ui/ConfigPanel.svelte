@@ -55,6 +55,22 @@
     { value: '#1B7F7A', label: 'Teal' },
   ];
 
+  /** Friendly subject headings for the add-type picker. */
+  const SUBJECT_NAMES: Record<string, string> = {
+    addsub: 'Addition & Subtraction',
+    counting: 'Counting & Number Sense',
+    multdiv: 'Multiplication & Division',
+    placevalue: 'Place Value',
+    fractions: 'Fractions',
+    time: 'Time',
+    money: 'Money',
+    measurement: 'Measurement',
+    geometry: 'Geometry',
+    patterns: 'Patterns',
+    colorByNumber: 'Color by Number',
+    manual: 'My Own Questions',
+  };
+
   /** Types grouped by subject, for the add-type picker (registry order). */
   const subjects = $derived.by(() => {
     const order: string[] = [];
@@ -206,7 +222,7 @@
         <div class="type-picker">
           {#each subjects as [subjectId, types] (subjectId)}
             <div class="subject-group">
-              <h3>{subjectId === 'addsub' ? 'Addition & Subtraction' : subjectId === 'counting' ? 'Counting & Number Sense' : subjectId === 'manual' ? 'My Own Questions' : subjectId}</h3>
+              <h3>{SUBJECT_NAMES[subjectId] ?? subjectId}</h3>
               <div class="type-cards">
                 {#each types as type (type.id)}
                   <button
