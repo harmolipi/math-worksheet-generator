@@ -417,6 +417,70 @@ describe('content type property tests (answers by construction)', () => {
     });
   });
 
+  it('shape-identify: shape is from the pool; answer is its name', () => {
+    forSeeds('shape-identify', 40, 'K', (p) => {
+      const d = data<{ shape: string; name: string }>(p);
+      expect(['circle', 'square', 'triangle', 'rectangle', 'oval', 'diamond']).toContain(d.shape);
+      expect(p.answer!.value).toBe(d.name);
+      expect(d.name).toBeTruthy();
+    });
+  });
+
+  it('sides-corners: answer matches the shared side map', () => {
+    const SIDES: Record<string, number> = {
+      triangle: 3, square: 4, rectangle: 4, diamond: 4, trapezoid: 4, pentagon: 5, hexagon: 6,
+    };
+    forSeeds('sides-corners', 40, 'G1', (p) => {
+      const d = data<{ shape: string; question: 'sides' | 'corners'; count: number }>(p);
+      expect(d.count).toBe(SIDES[d.shape]);
+      expect(p.answer!.value).toBe(String(d.count));
+    });
+  });
+
+  it('shape-match: right names are a permutation of the left shapes', () => {
+    const NAMES: Record<string, string> = {
+      circle: 'circle', square: 'square', triangle: 'triangle', rectangle: 'rectangle',
+      diamond: 'diamond', oval: 'oval',
+    };
+    forSeeds('shape-match', 40, 'K', (p) => {
+      const d = data<{ left: string[]; right: string[] }>(p);
+      const leftNames = d.left.map((s) => NAMES[s]).sort();
+      expect([...d.right].sort()).toEqual(leftNames);
+      expect(new Set(d.left).size).toBe(d.left.length);
+    });
+  });
+
+  it('symmetry: symmetric flag matches the shape pool; Yes/No answer', () => {
+    const SYMMETRIC = ['circle', 'square', 'rectangle', 'heart', 'star', 'oval', 'diamond'];
+    forSeeds('symmetry', 40, 'G1', (p) => {
+      const d = data<{ shape: string; symmetric: boolean }>(p);
+      expect(d.symmetric).toBe(SYMMETRIC.includes(d.shape));
+      expect(p.answer!.value).toBe(d.symmetric ? 'Yes' : 'No');
+    });
+  });
+
+  it('classify: exactly three targets, answer letters match positions', () => {
+    const MEMBERS: Record<string, string[]> = {
+      quadrilaterals: ['square', 'rectangle', 'diamond', 'trapezoid'],
+      curved: ['circle', 'oval', 'crescent', 'heart'],
+      polygons: ['triangle', 'square', 'rectangle', 'diamond', 'pentagon', 'hexagon', 'trapezoid'],
+    };
+    forSeeds('classify', 40, 'G2', (p) => {
+      const d = data<{ shapes: string[]; category: 'quadrilaterals' | 'curved' | 'polygons'; targetIndices: number[] }>(p);
+      expect(d.shapes).toHaveLength(6);
+      expect(new Set(d.shapes).size).toBe(6);
+      expect(d.targetIndices).toHaveLength(3);
+      for (const i of d.targetIndices) {
+        expect(MEMBERS[d.category]).toContain(d.shapes[i]);
+      }
+      const letters = d.targetIndices.map((i) => String.fromCharCode(65 + i)).join(', ');
+      expect(p.answer!.value).toBe(letters);
+      for (const s of d.shapes) {
+        expect(s).toBeTruthy();
+      }
+    });
+  });
+
   it('add-vertical with carry=always carries in the ones column', () => {
     for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
       const spec = baseSpec({

@@ -79,7 +79,17 @@ Status: `planned` → `implemented` → `print-verified` (docs/qa-print.md).
 | `compare-lengths` | Longer or shorter? | K–2 | implemented | 2 | two bars A/B, distinct lengths |
 | `area-perimeter` | Area or perimeter | G3–4 | implemented | 2 | hatched cell grid (area) / outline (perimeter) |
 
-### geometry / patterns / colorByNumber / wordproblems
+### geometry (preK – G3)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `shape-identify` | Name the shape | K–1 | implemented | 2 | big shape icon, write the name; basic / polygon pools |
+| `sides-corners` | Sides and corners | K–2 | implemented | 2 | polygon → side/corner count from shared map |
+| `shape-match` | Match shape to name | preK–1 | implemented | 2 | line-drawing pairs, shuffled right column |
+| `symmetry` | Line of symmetry | G1–3 | implemented | 2 | symmetric icon shapes (Yes) + custom scalene/L (No) |
+| `classify` | Which shapes belong? | G1–3 | implemented | 2 | circle quadrilaterals / curved / polygons, A–F letters |
+
+### patterns / colorByNumber / wordproblems
 
 Reserved subject dirs; tables filled in as Phase 2–3 types land (ruler reading, shape identification, next-in-pattern, color-by-number, word-problem template families).
 
