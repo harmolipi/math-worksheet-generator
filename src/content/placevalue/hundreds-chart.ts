@@ -62,5 +62,5 @@ export const hundredsChart: QuestionType = {
     );
   },
 
-  estHeightPt: () => 210,
+  estHeightPt: () => 230,
 };

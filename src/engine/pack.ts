@@ -43,8 +43,11 @@ const MARGIN_PT = 36; // 0.5in all around
 const HEADER_PT = 88; // title + name/date lines
 const FOOTER_PT = 28;
 const CAPACITY_FACTOR = 0.92; // conservative — never overfill
-const KEY_ENTRY_PT = 26;
+const KEY_ENTRY_PT = 30;
 const DEFAULT_EST_PT = 72;
+/** Workspace area under a problem: margin-top + height (sheet-css values). */
+const WORKSPACE_BOX_PT = 10 + 40;
+const WORKSPACE_BOX_LARGE_PT = 10 + 48;
 export const MAX_PAGES = 20;
 
 const COLUMN_LETTERS = ['A', 'B', 'C'];
@@ -52,6 +55,14 @@ const COLUMN_LETTERS = ['A', 'B', 'C'];
 function contentCapacity(layout: LayoutSpec): number {
   const { hPt } = PAGE_DIMS[layout.pageSize];
   return Math.floor((hPt - 2 * MARGIN_PT - HEADER_PT - FOOTER_PT) * CAPACITY_FACTOR);
+}
+
+/** Height cost of the show-your-work area; per-problem override (manual) wins. */
+function workspaceCost(layout: LayoutSpec, options: OptionsSpec, problem: Problem): number {
+  const mode =
+    (problem.data as { workspace?: string }).workspace ?? layout.workspace;
+  if (!mode || mode === 'none') return 0;
+  return options.largePrint ? WORKSPACE_BOX_LARGE_PT : WORKSPACE_BOX_PT;
 }
 
 function nextLabel(
@@ -115,7 +126,11 @@ export function packSheet(
   for (const section of generated) {
     for (const problem of section.problems) {
       const type = types.get(problem.typeId);
-      const est = Math.min(capacity, type?.estHeightPt?.(problem.data) ?? DEFAULT_EST_PT);
+      const est = Math.min(
+        capacity,
+        (type?.estHeightPt?.(problem.data) ?? DEFAULT_EST_PT) +
+          workspaceCost(layout, options, problem),
+      );
       if (cursor + est > capacity && page.problems.length > 0) pushPage();
       seq += 1;
       const packedProblem: PackedProblem = {

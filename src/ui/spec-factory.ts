@@ -60,6 +60,41 @@ const BAND_TITLES: Record<GradeBand, string> = {
   G5: 'Grade 5 Practice',
 };
 
+/** Minimal guaranteed-safe sheet: first eligible type, 4 problems, 1 column,
+ *  no workspace — the retry loop's last resort so the one-click button can
+ *  never leave an overflowing sheet on screen. */
+export function fallbackWorksheet(band: GradeBand): WorksheetSpec {
+  const level = GRADE_LEVEL[band];
+  const first = [...typeMap.values()].find(
+    (t) =>
+      t.id !== 'manual' &&
+      GRADE_LEVEL[t.gradeRange[0]] <= level &&
+      level <= GRADE_LEVEL[t.gradeRange[1]],
+  );
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    seed: randomSeed(),
+    title: BAND_TITLES[band],
+    gradeBand: band,
+    sections: [{ typeIds: [first?.id ?? 'count-objects'], counts: [4], difficulty: 'grade' }],
+    layout: {
+      pageSize: 'letter',
+      columns: 1,
+      numbering: 'sequential',
+      header: { title: true, name: true, date: true, classLine: false },
+      workspace: 'none',
+    },
+    options: {
+      answerKey: true,
+      answerKeyStyle: 'list',
+      inkSaver: false,
+      accentColor: null,
+      showPageNumbers: true,
+      largePrint: false,
+    },
+  };
+}
+
 export function randomWorksheet(band: GradeBand): WorksheetSpec {
   const level = GRADE_LEVEL[band];
   const eligible = [...typeMap.values()]

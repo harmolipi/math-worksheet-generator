@@ -129,5 +129,5 @@ export const base10Blocks: QuestionType = {
     );
   },
 
-  estHeightPt: () => 128,
+  estHeightPt: () => 230,
 };

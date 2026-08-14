@@ -36,12 +36,14 @@
     deleteFavorite,
     favorites,
     loadFavorite,
+    makeFallbackWorksheet,
     makeRandomWorksheet,
     rawEditor,
     refreshRawEditor,
     saveFavorite,
   } from './state.svelte';
   import type { ManualQuestion } from '../content/manual/manual';
+  import { findOverflowingPages } from './overflow';
 
   const spec = $derived(store.spec);
 
@@ -117,6 +119,19 @@
   // Which section has its type picker open (one at a time).
   let pickerOpen = $state<number | null>(null);
 
+  // The one-click worksheet re-rolls until the preview fits, so it can never
+  // hand the teacher an overflowing sheet ("Page 3 may be too full").
+  const RANDOM_RETRIES = 5;
+  async function makeSafeRandomWorksheet(): Promise<void> {
+    for (let attempt = 0; attempt < RANDOM_RETRIES; attempt++) {
+      makeRandomWorksheet();
+      await new Promise((r) => setTimeout(r, 120)); // let the preview re-render
+      const root = document.querySelector('.preview-viewport');
+      if (!root || findOverflowingPages(root).length === 0) return;
+    }
+    makeFallbackWorksheet(); // minimal, guaranteed-safe sheet for the band
+  }
+
   let favoriteName = $state('');
 
   // Native-listener actions for the favorites / raw-spec controls. These
@@ -191,7 +206,7 @@
   </div>
 
   <!-- One-click worksheet: a ready starting point for the selected grade. -->
-  <button type="button" class="surprise-btn" onclick={makeRandomWorksheet}>
+  <button type="button" class="surprise-btn" onclick={() => void makeSafeRandomWorksheet()}>
     🎲 Make me a worksheet
   </button>
   <p class="manual-hint surprise-hint">

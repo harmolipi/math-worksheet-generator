@@ -77,5 +77,9 @@ export const fractionShade: QuestionType = {
     );
   },
 
-  estHeightPt: () => 118,
+  estHeightPt(data): number {
+    const { shape } = data as unknown as ShadeData;
+    // Pie draws taller than the bar; keep both conservative (invariant 8).
+    return shape === 'pie' ? 150 : 110;
+  },
 };

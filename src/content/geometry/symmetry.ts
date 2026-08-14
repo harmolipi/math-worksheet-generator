@@ -65,5 +65,5 @@ export const symmetry: QuestionType = {
     );
   },
 
-  estHeightPt: () => 104,
+  estHeightPt: () => 145,
 };

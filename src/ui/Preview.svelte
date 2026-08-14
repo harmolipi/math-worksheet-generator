@@ -3,6 +3,8 @@
   // Also runs the page-overflow lint — pack estimates are conservative, but
   // rendering can still exceed them; catch it here, not in a classroom printer.
 
+  import { findOverflowingPages } from './overflow';
+
   let { sheetMarkup, pageWidthPt }: { sheetMarkup: string; pageWidthPt: number } = $props();
 
   let viewportEl: HTMLDivElement | undefined = $state();
@@ -24,14 +26,7 @@
     void sheetMarkup;
     const el = viewportEl;
     if (!el) return;
-    const bad: number[] = [];
-    el.querySelectorAll('.sheet-page').forEach((page) => {
-      if (page.scrollHeight > page.clientHeight + 2) {
-        const n = Number(page.getAttribute('data-page'));
-        if (Number.isFinite(n)) bad.push(n);
-      }
-    });
-    overflowing = bad;
+    overflowing = findOverflowingPages(el);
   });
 
   const scale = $derived(Math.min(1, (viewportW - 32) / pageWidthPt));

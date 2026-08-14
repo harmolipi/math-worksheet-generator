@@ -107,5 +107,5 @@ export const classify: QuestionType = {
     );
   },
 
-  estHeightPt: () => 118,
+  estHeightPt: () => 140,
 };

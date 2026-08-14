@@ -59,5 +59,5 @@ export const clockRead: QuestionType = {
     );
   },
 
-  estHeightPt: () => 130,
+  estHeightPt: () => 150,
 };

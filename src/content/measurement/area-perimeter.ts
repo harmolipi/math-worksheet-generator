@@ -85,5 +85,5 @@ export const areaPerimeter: QuestionType = {
     );
   },
 
-  estHeightPt: () => 150,
+  estHeightPt: () => 225, // grid capped at 170pt by CSS + prompt/answer chrome
 };

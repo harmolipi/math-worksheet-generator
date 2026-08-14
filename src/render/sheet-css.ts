@@ -338,7 +338,14 @@ svg .icon-dot { stroke-width: 3.2; }
 .bar-row { display: flex; align-items: center; gap: 8pt; }
 .bar-svg { width: ${barWpt}pt; height: ${barHpt}pt; display: block; }
 .bar-rect { fill: none; stroke: #333; stroke-width: 2; }
-.ap-grid { width: 100%; max-width: 180pt; display: block; }
+.ap-grid {
+  width: 100%;
+  max-width: 180pt;
+  /* Non-square rects (e.g. 2×6) explode in height at full width — cap so
+     the grid letterboxes instead of overflowing the page. */
+  max-height: 170pt;
+  display: block;
+}
 .ap-cell { stroke: #444; stroke-width: 1; }
 .ap-frame { fill: none; stroke: #222; stroke-width: 2; }
 
@@ -463,6 +470,20 @@ svg .icon-dot { stroke-width: 3.2; }
 .key-label { font-weight: 800; min-width: 2.2em; text-align: right; }
 .key-value { font-weight: 600; }
 .key-detail { color: #666; font-size: ${basePt - 1}pt; }
+
+/* ── drawn SVG assets ───────────────────────────────── */
+/* Explicit sizes: an unconstrained <svg viewBox> falls back to UA-default
+   sizing (≈300px+) and blows the packing estimates out of the water. */
+.base10 {
+  width: 100%;
+  max-width: 200pt;
+  max-height: 230pt;
+  display: block;
+  margin: 0 auto;
+}
+.clock-face-svg { width: 88pt; height: 88pt; display: block; margin: 0 auto; }
+.frac-bar { width: 100%; max-width: 160pt; display: block; margin: 0 auto; }
+.frac-pie { width: 96pt; height: 96pt; display: block; margin: 0 auto; }
 
 /* ── hundreds chart ─────────────────────────────────── */
 .hundreds-chart { text-align: center; }

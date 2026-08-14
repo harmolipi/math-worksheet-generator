@@ -15,7 +15,7 @@ import {
   type WorksheetSpec,
 } from '../engine';
 import type { ManualQuestion } from '../content/manual/manual';
-import { defaultSpec, randomSeed, randomWorksheet } from './spec-factory';
+import { defaultSpec, fallbackWorksheet, randomSeed, randomWorksheet } from './spec-factory';
 
 // Exported as a $state store: components read `store.spec` reactively.
 // (Svelte forbids exporting module-level $derived values.)
@@ -47,6 +47,12 @@ export function toggleSets(): void {
 /** One-click worksheet: a ready starting point for the current grade band. */
 export function makeRandomWorksheet(): void {
   store.spec = randomWorksheet(store.spec.gradeBand);
+}
+
+/** The one-click button's guaranteed-safe last resort (see ConfigPanel's
+ *  retry loop — random sheets are re-rolled until the preview fits). */
+export function makeFallbackWorksheet(): void {
+  store.spec = fallbackWorksheet(store.spec.gradeBand);
 }
 
 export function addSection(): void {
