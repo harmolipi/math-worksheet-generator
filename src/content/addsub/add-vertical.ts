@@ -140,7 +140,9 @@ export const addVertical: QuestionType = {
     );
   },
 
-  estHeightPt(params): number {
-    return (params.carry === 'none' ? 108 : 122) + 18 * (Number(params.digits as string) - 2);
+  estHeightPt(data): number {
+    const { digitCount, carries } = data as unknown as AddVerticalData;
+    const hasCarryRow = carries.some((c) => c > 0);
+    return (hasCarryRow ? 122 : 108) + 18 * (digitCount - 2);
   },
 };

@@ -1,104 +1,84 @@
 <script lang="ts">
-  import { assembleSheet, typeMap } from './engine';
-  import { defaultSpec } from './ui/spec-factory';
+  import { assembleSheet, encodeSpec, typeMap } from './engine';
+  import ConfigPanel from './ui/ConfigPanel.svelte';
+  import Preview from './ui/Preview.svelte';
+  import { loadFromHash, store } from './ui/state.svelte';
 
-  // Phase 1 preview: fixed demo spec. The config UI (task 7) replaces this.
-  const spec = $state(defaultSpec());
-  const sheet = $derived.by(() => assembleSheet(spec, typeMap));
+  // svelte-eslint-disable svelte/no-at-html-tags (see eslint.config.js)
+  loadFromHash();
+
+  const spec = $derived(store.spec);
+  const hashError = $derived(store.hashError);
+
+  const sheet = $derived.by(() => {
+    try {
+      const result = assembleSheet(spec, typeMap);
+      return { ok: true as const, result };
+    } catch (e) {
+      return {
+        ok: false as const,
+        error: e instanceof Error ? e.message : 'Something went wrong building this sheet.',
+      };
+    }
+  });
+
   // Style + markup as ONE raw string: Svelte treats <style> elements in
   // component markup specially (hoisting), so the stylesheet must travel
   // inside {@html} to land in the DOM verbatim.
-  const sheetMarkup = $derived(`<style>${sheet.css}</style>${sheet.html}`);
+  const sheetMarkup = $derived(
+    sheet.ok ? `<style>${sheet.result.css}</style>${sheet.result.html}` : '',
+  );
 
-  let viewportEl: HTMLDivElement | undefined = $state();
-  let viewportW = $state(800);
-
+  // Keep the shareable URL in sync with the config (replaceState: no history spam).
   $effect(() => {
-    const el = viewportEl;
-    if (!el) return;
-    const ro = new ResizeObserver((entries) => {
-      viewportW = entries[0].contentRect.width;
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
+    const encoded = encodeSpec(spec);
+    history.replaceState(null, '', `#${encoded}`);
   });
 
-  // Letter page width = 612pt; fit it inside the viewport with a little air.
-  const scale = $derived(Math.min(1, (viewportW - 32) / 612));
+  const pageMeta = $derived(
+    sheet.ok
+      ? `${sheet.result.worksheetPageCount} page${sheet.result.worksheetPageCount === 1 ? '' : 's'}` +
+        (sheet.result.keyPageCount > 0
+          ? ` · key: ${sheet.result.keyPageCount} page${sheet.result.keyPageCount === 1 ? '' : 's'}`
+          : '')
+      : '—',
+  );
 </script>
 
-<!-- svelte-eslint-disable svelte/no-at-html-tags — sheet HTML below is engine-generated;
-     every user-supplied string (title, manual prompts, answers) is escaped at render
-     (see render/html.ts + tests/unit/manual.test.ts). -->
-<div class="app no-print">
-  <header class="topbar">
-    <h1>Math Worksheet Generator</h1>
-    <button class="print-btn" onclick={() => window.print()}>Print / Save as PDF</button>
-  </header>
-  <p class="print-hint">
-    In the print dialog: set <b>Margins</b> to None, turn off <b>headers &amp; footers</b>, and keep
-    <b>Scale at 100%</b> — the page layout is built to those settings.
-  </p>
-  <div class="preview-viewport" bind:this={viewportEl}>
-    <div
-      class="scaler"
-      style={`transform: scale(${scale}); transform-origin: top left;`}
-    >
-      {@html sheetMarkup}
-    </div>
+<div class="topbar no-print">
+  <div class="wordmark">
+    <span class="wordmark-name">Worksheet Desk</span>
+    <span class="wordmark-note">print-perfect math practice</span>
   </div>
+  <div class="topbar-meta">
+    <span class="page-meta">{pageMeta}</span>
+    <button
+      type="button"
+      class="print-btn"
+      onclick={() => window.print()}
+    >
+      Print / Save as PDF
+    </button>
+  </div>
+</div>
+
+{#if hashError !== ''}
+  <div class="error-banner no-print" role="alert">
+    That link couldn't be opened: {hashError}. Showing a fresh sheet instead.
+  </div>
+{/if}
+
+{#if !sheet.ok}
+  <div class="error-banner no-print" role="alert">
+    {sheet.error}
+  </div>
+{/if}
+
+<div class="layout no-print">
+  <ConfigPanel />
+  <Preview {sheetMarkup} pageWidthPt={612} />
 </div>
 
 <div class="print-only">
   {@html sheetMarkup}
 </div>
-
-<style>
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 22px;
-    background: #fff;
-    border-bottom: 1px solid #e3e0da;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-
-  .topbar h1 {
-    font-size: 1.1rem;
-    margin: 0;
-  }
-
-  .print-btn {
-    font: inherit;
-    font-weight: 700;
-    padding: 8px 16px;
-    border-radius: 999px;
-    border: none;
-    background: #2f6fed;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  .print-btn:hover {
-    background: #2459c4;
-  }
-
-  .print-hint {
-    text-align: center;
-    color: #6b675f;
-    font-size: 0.85rem;
-    margin: 10px 16px;
-  }
-
-  .preview-viewport {
-    padding: 0 16px 48px;
-    overflow-x: auto;
-  }
-
-  .scaler {
-    width: 612pt;
-  }
-</style>

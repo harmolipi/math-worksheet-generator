@@ -42,7 +42,7 @@ The engine is importable and fully testable in Node — Svelte and the DOM are o
 
 Problems are generated per section, then packed deterministically:
 
-1. Each type declares a hard-coded `estHeightPt(params)` (computed once during development from real renders, then frozen — never measured at runtime).
+1. Each type declares a hard-coded `estHeightPt(data)` — receives the problem's DATA (anything the estimate needs must be stored there), computed once during development from real renders, then frozen — never measured at runtime.
 2. Page budget = content height − header − footer, × 0.92 safety factor.
 3. Sections pack in order; overflow starts a new page. A problem never splits across pages.
 4. Within a page, problems sit in a CSS grid (`repeat(columns, 1fr)`).

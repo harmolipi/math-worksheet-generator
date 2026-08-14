@@ -71,7 +71,8 @@ export const numberTracing: QuestionType = {
     );
   },
 
-  estHeightPt(params): number {
-    return 100 + 96 * Math.ceil((params.count as number) / 3);
+  estHeightPt(data): number {
+    const count = (data as unknown as TracingData).numbers.length;
+    return 100 + 96 * Math.ceil(count / 3);
   },
 };

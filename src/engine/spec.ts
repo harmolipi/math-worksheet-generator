@@ -117,8 +117,12 @@ export interface QuestionType {
   generate(rng: Rng, params: Record<string, unknown>, ctx: GenCtx): Problem;
   /** Pure — no RNG, no wall-clock. Must return byte-identical output twice. */
   render(p: Problem): string;
-  /** Hard-coded conservative height estimate in points (never measured at runtime). */
-  estHeightPt?(params: Record<string, unknown>): number;
+  /**
+   * Hard-coded conservative height estimate in points for a generated problem
+   * (never measured at runtime). Receives the problem's DATA — anything the
+   * estimate needs (arrangement, layout, digit count…) must be stored there.
+   */
+  estHeightPt?(data: Record<string, unknown>): number;
   /** Extra validation beyond ParamSpec (e.g. array-valued params like manual questions). */
   validateParams?(params: Record<string, unknown>): string[];
 }

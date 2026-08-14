@@ -86,7 +86,7 @@ export const quantityMatching: QuestionType = {
     return `<div class="quantity-matching">${prompt('Draw a line from each number to its group.')}<div class="match-list">${rows}</div></div>`;
   },
 
-  estHeightPt(params): number {
-    return 66 + 30 * (params.pairs as number);
+  estHeightPt(data): number {
+    return 66 + 30 * (data as unknown as MatchingData).left.length;
   },
 };

@@ -75,7 +75,7 @@ export const addFacts: QuestionType = {
     );
   },
 
-  estHeightPt(params): number {
-    return params.format === 'vertical' ? 96 : 52;
+  estHeightPt(data): number {
+    return (data as unknown as AddFactsData).format === 'vertical' ? 96 : 52;
   },
 };

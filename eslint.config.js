@@ -8,9 +8,10 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...eslintPluginSvelte.configs['flat/recommended'],
-  // TypeScript inside .svelte files (type annotations, generics).
+  // TypeScript inside .svelte files and .svelte.ts module files
+  // (eslint-plugin-svelte parses .svelte.ts as Svelte; both need the TS parser).
   {
-    files: ['**/*.svelte'],
+    files: ['**/*.svelte', '**/*.svelte.ts'],
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser,

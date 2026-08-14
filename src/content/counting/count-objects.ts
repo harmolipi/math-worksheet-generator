@@ -89,8 +89,8 @@ export const countObjects: QuestionType = {
     );
   },
 
-  estHeightPt(params): number {
-    const arrangement = params.arrangement as string;
+  estHeightPt(data): number {
+    const arrangement = (data as unknown as CountData).arrangement;
     return arrangement === 'grid' ? 118 : arrangement === 'scatter' ? 108 : 92;
   },
 };

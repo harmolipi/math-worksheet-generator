@@ -90,11 +90,10 @@ export const manualType: QuestionType = {
     );
   },
 
-  estHeightPt(params): number {
-    const questions = questionsFrom(params);
-    const vertical = questions.some((q) => q.layout === 'vertical');
+  estHeightPt(data): number {
+    const { layout } = data as unknown as ManualData;
     // Conservative: vertical problems stack rows; horizontal fit one line.
-    return vertical ? 110 : 64;
+    return layout === 'vertical' ? 110 : 64;
   },
 
   validateParams(params): string[] {
