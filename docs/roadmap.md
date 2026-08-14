@@ -2,9 +2,9 @@
 
 **Source of truth for progress.** Tick items here AND in `.plans/durable-plan.md` as work completes. Each phase ends deployed + print-verified.
 
-Current status: **Phase 2 in progress** — Phase 1 shipped: engine core, manual type, 10 content types + 20 icons, print pipeline (PDF page count verified in Chrome), config UI ("Worksheet Desk"), golden/property/unit test suite (132 tests). Phase 1 checkpoint partially green: Chrome print verified; Safari/Firefox manual pass pending (docs/qa-print.md).
+Current status: **Phase 2 complete** — Phase 1 shipped: engine core, manual type, 10 content types + 20 icons, print pipeline (PDF page count verified in Chrome), config UI ("Worksheet Desk"), golden/property/unit test suite (132 tests). Phase 1 checkpoint partially green: Chrome print verified; Safari/Firefox manual pass pending (docs/qa-print.md).
 
-Phase 2 progress: content catalog at 34 types + 53 icons — counting 8, addsub 4, multdiv 5, placevalue 5, fractions 3, time 2, money 3 (coins-count, making-change, money-add), measurement 3 (ruler-read, compare-lengths, area-perimeter), geometry 5 (identify, sides-corners, match, symmetry, classify), patterns 1 (next-in-pattern), colorByNumber 1, manual 1. Content expansion DONE. Remaining: teacher features (Sets A–F, manual editor UI, URL share + favorites, largePrint/inkSaver polish, hundreds chart).
+Phase 2 shipped: content catalog at 35 types + 53 icons — counting 8, addsub 4, multdiv 5, placevalue 6 (incl. hundreds-chart), fractions 3, time 2, money 3, measurement 3, geometry 5, patterns 1, colorByNumber 1, manual 1. Teacher features: Sets A–F variants (splitmix32 seeds, "— Set A" titles, big-job page warnings), challenge star badges, manual question editor (interleaves with generated), URL share + raw-JSON spec editor, localStorage saved sheets, inkSaver mode, largePrint scaling, one-click "Make me a worksheet". Print verified: mixed new-type sheet → PDF page count == engine prediction (5/5). Next: Phase 3 (word problems).
 
 ## Phase 0 — Scaffold
 
@@ -27,10 +27,10 @@ Phase 2 progress: content catalog at 34 types + 53 icons — counting 8, addsub 
 ## Phase 2 — Content expansion + teacher features
 
 - [x] ~24 more types (multdiv, placevalue, fractions, time, money, measurement, geometry, patterns, color-by-number) + 28 icons + per-band difficulty presets
-- [ ] Teacher features: Sets A–F variants, mixed difficulty + stars, URL share + raw-spec editor, favorites, largePrint, inkSaver, hundreds chart
-- [ ] Manual question editor UI (prompt/answer/workspace list editor, horizontal + vertical layout, mixing with generated)
+- [x] Teacher features: Sets A–F variants, mixed difficulty + stars, URL share + raw-spec editor, favorites, largePrint, inkSaver, hundreds chart
+- [x] Manual question editor UI (prompt/answer/workspace list editor, horizontal + vertical layout, mixing with generated)
 - [x] Per-type property tests
-- [ ] Checkpoint: full pre-K–5 core catalog usable; variant sets print with correct page counts; deployed
+- [x] Checkpoint: full pre-K–5 core catalog usable; variant sets print with correct page counts; deployed
 
 ## Phase 3 — Word problems + polish
 
