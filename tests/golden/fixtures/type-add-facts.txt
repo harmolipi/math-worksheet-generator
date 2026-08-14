@@ -1,0 +1,11 @@
+# add-facts @ K
+cel4ed | <div class="fact"><span class="fact-nums">5 + 5 =</span><span class="blank">&#8203;</span></div>
+m8z0d8 | <div class="fact"><span class="fact-nums">5 + 2 =</span><span class="blank">&#8203;</span></div>
+mj09b0 | <div class="fact"><span class="fact-nums">1 + 2 =</span><span class="blank">&#8203;</span></div>
+17audak | <div class="fact"><span class="fact-nums">6 + 1 =</span><span class="blank">&#8203;</span></div>
+73dzxm | <div class="fact"><span class="fact-nums">5 + 1 =</span><span class="blank">&#8203;</span></div>
+1gqv44f | <div class="fact"><span class="fact-nums">6 + 4 =</span><span class="blank">&#8203;</span></div>
+igt4jc | <div class="fact"><span class="fact-nums">6 + 3 =</span><span class="blank">&#8203;</span></div>
+1pa1y7h | <div class="fact"><span class="fact-nums">9 + 1 =</span><span class="blank">&#8203;</span></div>
+73dzxm | <div class="fact"><span class="fact-nums">5 + 1 =</span><span class="blank">&#8203;</span></div>
+rmb078 | <div class="fact"><span class="fact-nums">8 + 1 =</span><span class="blank">&#8203;</span></div>

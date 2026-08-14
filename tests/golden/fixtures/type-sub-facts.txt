@@ -1,0 +1,11 @@
+# sub-facts @ G1
+5sfqw8 | <div class="fact"><span class="fact-nums">10 - 5 =</span><span class="blank">&#8203;</span></div>
+16xf74z | <div class="fact"><span class="fact-nums">7 - 5 =</span><span class="blank">&#8203;</span></div>
+y1o1kz | <div class="fact"><span class="fact-nums">3 - 1 =</span><span class="blank">&#8203;</span></div>
+r7uzbf | <div class="fact"><span class="fact-nums">7 - 6 =</span><span class="blank">&#8203;</span></div>
+1xny2h5 | <div class="fact"><span class="fact-nums">6 - 5 =</span><span class="blank">&#8203;</span></div>
+17qn9a | <div class="fact"><span class="fact-nums">10 - 6 =</span><span class="blank">&#8203;</span></div>
+122kt4v | <div class="fact"><span class="fact-nums">9 - 6 =</span><span class="blank">&#8203;</span></div>
+7twgs0 | <div class="fact"><span class="fact-nums">10 - 9 =</span><span class="blank">&#8203;</span></div>
+1xny2h5 | <div class="fact"><span class="fact-nums">6 - 5 =</span><span class="blank">&#8203;</span></div>
+vhooir | <div class="fact"><span class="fact-nums">9 - 8 =</span><span class="blank">&#8203;</span></div>

@@ -18,7 +18,7 @@ Current status: **Phase 1 in progress** — engine core ✓, manual type (engine
 - [x] Engine support for `manual` type (no-RNG generate, escaped render, validation caps)
 - [x] First 10 types (counting: count-objects, number-recognition, quantity-matching, which-has-more, missing-number-sequence, number-tracing, ten-frame; addsub: add-facts, sub-facts, add-vertical) + 20 icons
 - [x] sheet-css (Letter+A4), scaled preview, print-root, header (title/name/date), answer key list mode, in-flow page numbers — print-verified: headless Chrome PDF page count == engine prediction (overflow lint overlay → UI task)
-- [ ] UI v1: grade-band picker, type cards with previews, options panel, seed + regenerate, Print hints (frontend-design skill)
+- [x] UI v1: grade-band picker, type cards with live samples, options panel, seed + regenerate + copy link, Print hints ("Worksheet Desk" design via frontend-design skill)
 - [ ] Tests: golden, property, purity, round-trip, packing, validation
 - [ ] Checkpoint: 3+ types print correctly on Chrome/Safari/Firefox (qa-print.md partially filled), deployed
 

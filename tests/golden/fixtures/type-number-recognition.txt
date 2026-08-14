@@ -1,0 +1,11 @@
+# number-recognition @ preK
+ukbzf4 | <div class="number-recognition"><div class="prompt">Circle the number <b>5</b>.</div><div class="chip-row"><span class="chip">2</span><span class="chip">5</span><span class="chip">4</span></div></div>
+blmtxx | <div class="number-recognition"><div class="prompt">Circle the number <b>2</b>.</div><div class="chip-row"><span class="chip">2</span><span class="chip">5</span><span class="chip">0</span></div></div>
+y2i4ns | <div class="number-recognition"><div class="prompt">Circle the number <b>1</b>.</div><div class="chip-row"><span class="chip">1</span><span class="chip">4</span><span class="chip">2</span></div></div>
+1u6n9i8 | <div class="number-recognition"><div class="prompt">Circle the number <b>5</b>.</div><div class="chip-row"><span class="chip">5</span><span class="chip">4</span><span class="chip">2</span></div></div>
+t2hp8z | <div class="number-recognition"><div class="prompt">Circle the number <b>4</b>.</div><div class="chip-row"><span class="chip">2</span><span class="chip">5</span><span class="chip">4</span></div></div>
+95hfqw | <div class="number-recognition"><div class="prompt">Circle the number <b>5</b>.</div><div class="chip-row"><span class="chip">5</span><span class="chip">2</span><span class="chip">4</span></div></div>
+1add2kq | <div class="number-recognition"><div class="prompt">Circle the number <b>3</b>.</div><div class="chip-row"><span class="chip">4</span><span class="chip">0</span><span class="chip">3</span></div></div>
+mkgrgb | <div class="number-recognition"><div class="prompt">Circle the number <b>5</b>.</div><div class="chip-row"><span class="chip">3</span><span class="chip">2</span><span class="chip">5</span></div></div>
+1u6n9i8 | <div class="number-recognition"><div class="prompt">Circle the number <b>5</b>.</div><div class="chip-row"><span class="chip">5</span><span class="chip">4</span><span class="chip">2</span></div></div>
+1i3ecod | <div class="number-recognition"><div class="prompt">Circle the number <b>1</b>.</div><div class="chip-row"><span class="chip">3</span><span class="chip">4</span><span class="chip">1</span></div></div>
