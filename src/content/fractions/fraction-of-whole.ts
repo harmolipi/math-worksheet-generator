@@ -2,6 +2,7 @@
 // is a multiple of the denominator, so the answer is always an integer.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { factH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { blank } from '../../render/problem';
 
@@ -67,5 +68,7 @@ export const fractionOfWhole: QuestionType = {
     );
   },
 
-  estHeightPt: () => 64,
+  estHeightPt(_data, ctx): number {
+    return factH(ctx);
+  },
 };

@@ -4,6 +4,7 @@
 // from the shuffled positions.
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { classifyIconPt, promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { icon } from '../../render/icons';
 import { prompt } from '../../render/problem';
@@ -107,5 +108,10 @@ export const classify: QuestionType = {
     );
   },
 
-  estHeightPt: () => 140,
+  estHeightPt(data, ctx): number {
+    const { shapes } = data as unknown as ClassifyData;
+    const rows = Math.ceil(shapes.length / 3); // fixed 3-column grid
+    const cell = classifyIconPt(ctx) + 2 + 14; // icon + gap + letter
+    return promptH(ctx) + rows * cell + 8 * (rows - 1);
+  },
 };

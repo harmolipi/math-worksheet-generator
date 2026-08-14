@@ -3,6 +3,7 @@
 // question determines the winner.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt } from '../../render/problem';
 
@@ -81,5 +82,8 @@ export const compareLengths: QuestionType = {
     );
   },
 
-  estHeightPt: () => 92,
+  estHeightPt(_data, ctx): number {
+    // Prompt + two fixed bar rows (15pt bars + 8pt gaps).
+    return promptH(ctx) + 2 * 23 + 2;
+  },
 };

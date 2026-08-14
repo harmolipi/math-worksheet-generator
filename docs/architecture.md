@@ -40,11 +40,11 @@ The engine is importable and fully testable in Node — Svelte and the DOM are o
 
 ## Page packing (`src/engine/pack.ts`)
 
-Problems are generated per section, then packed deterministically:
+Problems are generated per section, then packed deterministically. The model mirrors the actual CSS grid (`.sheet-content`): row-major auto-placement, each row as tall as its tallest problem (grid items stretch), a 16pt gap between rows, and page breaks on row boundaries — a row never straddles pages, and the final partial row is fit-checked like any other.
 
-1. Each type declares a hard-coded `estHeightPt(data)` — receives the problem's DATA (anything the estimate needs must be stored there), computed once during development from real renders, then frozen — never measured at runtime.
-2. Page budget = content height − header − footer, × 0.92 safety factor.
-3. Sections pack in order; overflow starts a new page. A problem never splits across pages.
+1. Each type declares a hard-coded `estHeightPt(data, ctx)` — receives the problem's DATA (anything the estimate needs must be stored there) plus the layout context `{ contentWidthPt, basePt, largePrint }` (content width drives flex-wrap row counts, basePt drives line heights). Estimates are hand-derived models of each render() structure using sheet-css constants (`src/content/estimate.ts` helpers), calibrated once during development against real renders (headless-Chromium harness in the session's /tmp measurement tooling), then frozen — never measured at runtime.
+2. Page budget = content height − header (composition-aware) − footer (only when page numbers show), × 0.95 safety factor.
+3. Sections pack in order; a problem never splits across pages.
 4. Within a page, problems sit in a CSS grid (`repeat(columns, 1fr)`).
 
 Output: `{ pages: [{ problems, headerSpec, footerSpec, keyType }], pageCount }`.

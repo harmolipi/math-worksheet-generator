@@ -2,6 +2,7 @@
 // child writes the total value. By construction: pick coins, sum them.
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { answerH, coinPt, promptH, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { coinGroup } from '../../render/svg';
 import { prompt, writeBox } from '../../render/problem';
@@ -56,5 +57,10 @@ export const coinsCount: QuestionType = {
     );
   },
 
-  estHeightPt: () => 96,
+  estHeightPt(data, ctx): number {
+    const { coins } = data as unknown as CoinsCountData;
+    const coin = coinPt(ctx);
+    const rows = rowsFor(coins.length, coin, 4, ctx.contentWidthPt);
+    return promptH(ctx) + rows * coin + 4 * (rows - 1) + answerH(ctx) + 3;
+  },
 };

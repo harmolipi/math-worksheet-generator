@@ -2,6 +2,7 @@
 // By construction: pick the hidden positions, the values are index + 1.
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt } from '../../render/problem';
 
@@ -62,5 +63,8 @@ export const hundredsChart: QuestionType = {
     );
   },
 
-  estHeightPt: () => 230,
+  estHeightPt(_data, ctx): number {
+    // Prompt + the fixed 10×19pt grid + borders.
+    return promptH(ctx) + 198;
+  },
 };

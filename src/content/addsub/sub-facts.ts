@@ -2,6 +2,7 @@
 // negative (b ≤ a), and never zero unless includeZero is on.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { factH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { blank } from '../../render/problem';
 
@@ -53,5 +54,7 @@ export const subFacts: QuestionType = {
     );
   },
 
-  estHeightPt: () => 52,
+  estHeightPt(_data, ctx): number {
+    return factH(ctx);
+  },
 };

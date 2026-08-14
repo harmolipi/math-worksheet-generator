@@ -4,6 +4,7 @@ import { fingerprintOf } from '../../engine/fingerprint';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { clockSvg } from '../../render/svg';
 import { prompt, writeBox } from '../../render/problem';
+import { answerH, promptH } from '../estimate';
 
 interface ClockReadData extends Record<string, unknown> {
   hour: number;
@@ -59,5 +60,8 @@ export const clockRead: QuestionType = {
     );
   },
 
-  estHeightPt: () => 150,
+  estHeightPt(_data, ctx): number {
+    // Prompt + fixed 88pt face + answer line.
+    return promptH(ctx) + 88 + answerH(ctx) + 3;
+  },
 };

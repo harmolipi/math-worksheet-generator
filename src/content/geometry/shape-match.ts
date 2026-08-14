@@ -2,6 +2,7 @@
 // the pool in canonical order; right column is the shuffled names.
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { lineH, matchIconPt, promptH, promptLines } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { icon } from '../../render/icons';
 import { prompt } from '../../render/problem';
@@ -70,7 +71,15 @@ export const shapeMatch: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
-    return 66 + 30 * (data as unknown as ShapeMatchData).left.length;
+  estHeightPt(data, ctx): number {
+    const { left } = data as unknown as ShapeMatchData;
+    const rows = left.length;
+    // Icon-tall rows, 6pt apart; the prompt wraps in narrow columns.
+    return (
+      promptH(ctx) +
+      (promptLines('Draw a line from each shape to its name.', ctx) - 1) * lineH(ctx) +
+      rows * matchIconPt(ctx) +
+      6 * (rows - 1)
+    );
   },
 };

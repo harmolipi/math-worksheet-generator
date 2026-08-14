@@ -8,6 +8,7 @@
 
 import type { Problem, QuestionType } from '../../engine/spec';
 import { fingerprintOf } from '../../engine/fingerprint';
+import { promptLines } from '../estimate';
 import { escapeHtml } from '../../render/html';
 
 export interface ManualQuestion {
@@ -92,10 +93,19 @@ export const manualType: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
-    const { layout } = data as unknown as ManualData;
-    // Conservative: vertical problems stack rows; horizontal fit one line.
-    return layout === 'vertical' ? 110 : 64;
+  estHeightPt(data, ctx): number {
+    const { prompt: text, layout } = data as unknown as ManualData;
+    // User-written prompts can be anything — estimate from text length and
+    // keep a 15% safety margin on top.
+    const raw = Math.ceil(ctx.basePt * 1.35);
+    if (layout === 'vertical') {
+      const rows = text
+        .split('\n')
+        .reduce((acc, row) => acc + Math.max(1, promptLines(row, ctx)), 0);
+      return Math.ceil((rows * raw + raw + 8) * 1.15);
+    }
+    const lines = Math.max(1, promptLines(text, ctx));
+    return Math.ceil((lines * raw + 6 + Math.ceil(ctx.basePt * 1.2)) * 1.15);
   },
 
   validateParams(params): string[] {

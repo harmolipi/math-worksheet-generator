@@ -4,6 +4,7 @@
 import { fingerprintOf } from '../../engine/fingerprint';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt, writeBox } from '../../render/problem';
+import { answerH, promptH } from '../estimate';
 
 interface Base10Data extends Record<string, unknown> {
   number: number;
@@ -129,5 +130,26 @@ export const base10Blocks: QuestionType = {
     );
   },
 
-  estHeightPt: () => 230,
+  estHeightPt(data, ctx): number {
+    const { flats, rods, units } = data as unknown as Base10Data;
+    // Replicate blocksSvg's row layout (pure integer math — no DOM).
+    let x = 0;
+    let y = 0;
+    for (let i = 0; i < flats; i++) {
+      x += 108;
+      if (x + 100 > 300) { x = 0; y += 108; }
+    }
+    for (let i = 0; i < rods; i++) {
+      x += 108;
+      if (x + 100 > 300) { x = 0; y += 28; }
+    }
+    for (let i = 0; i < units; i++) {
+      x += 26;
+      if (x + 20 > 300) { x = 0; y += 28; }
+    }
+    const viewH = Math.max(80, y + 28);
+    const svgW = Math.min(ctx.contentWidthPt, 200); // CSS max-width
+    const svgH = Math.min(232, Math.ceil((viewH * svgW) / 300) + 2); // CSS max-height (px rounding)
+    return promptH(ctx) + svgH + answerH(ctx);
+  },
 };

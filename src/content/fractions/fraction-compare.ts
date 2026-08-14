@@ -2,6 +2,7 @@
 // are never equal, and denominators stay within the chosen set.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { factH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { writeBox } from '../../render/problem';
 
@@ -75,5 +76,7 @@ export const fractionCompare: QuestionType = {
     );
   },
 
-  estHeightPt: () => 64,
+  estHeightPt(_data, ctx): number {
+    return factH(ctx);
+  },
 };

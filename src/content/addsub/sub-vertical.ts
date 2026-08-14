@@ -4,6 +4,7 @@
 // - borrow 'always': the ones column borrows (top ones digit < bottom ones digit)
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { digitRowH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 
 interface SubVerticalData extends Record<string, unknown> {
@@ -122,8 +123,7 @@ export const subVertical: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
-    const d = data as unknown as SubVerticalData;
-    return (d.hasBorrow ? 118 : 106) + 18 * (d.digitCount - 2);
+  estHeightPt(_data, ctx): number {
+    return 3 * digitRowH(ctx) + 2; // top/bottom/answer rows + hairline
   },
 };

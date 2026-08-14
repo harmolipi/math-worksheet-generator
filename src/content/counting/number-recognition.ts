@@ -1,6 +1,7 @@
 // Number recognition: "Circle the number 7" with nearby distractors.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { chipRowH, chipW, promptH, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { numeralChip, prompt } from '../../render/problem';
 
@@ -63,5 +64,9 @@ export const numberRecognition: QuestionType = {
     );
   },
 
-  estHeightPt: () => 64,
+  estHeightPt(data, ctx): number {
+    const { options } = data as unknown as RecognitionData;
+    const rows = rowsFor(options.length, chipW(ctx), 8, ctx.contentWidthPt);
+    return promptH(ctx) + rows * chipRowH(ctx) + 8 * (rows - 1);
+  },
 };

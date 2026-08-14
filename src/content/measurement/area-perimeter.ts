@@ -3,6 +3,7 @@
 // — count the edges. By construction: pick w and h, compute the answer.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, lineH, promptH, promptLines } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { hatchId } from '../../render/svg';
 import { prompt, writeBox } from '../../render/problem';
@@ -85,5 +86,15 @@ export const areaPerimeter: QuestionType = {
     );
   },
 
-  estHeightPt: () => 225, // grid capped at 170pt by CSS + prompt/answer chrome
+  estHeightPt(data, ctx): number {
+    const { w, h, mode } = data as unknown as AreaPerimeterData;
+    const gridW = Math.min(ctx.contentWidthPt, 180); // CSS max-width
+    const gridH = Math.min(172, Math.ceil(((h * 22 + 2) * gridW) / (w * 22 + 2)) + 2); // CSS max-height
+    const text =
+      mode === 'area'
+        ? 'What is the <b>area</b>? Count the squares.'
+        : 'What is the <b>perimeter</b>? Count the edges.';
+    const wrap = (promptLines(text, ctx) - 1) * lineH(ctx);
+    return promptH(ctx) + wrap + gridH + answerH(ctx);
+  },
 };

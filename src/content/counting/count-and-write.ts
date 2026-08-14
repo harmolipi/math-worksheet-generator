@@ -2,6 +2,7 @@
 // (Sibling of count-objects, but the "3 = ___" phrasing some teachers prefer.)
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { iconPt, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { ICON_SETS } from '../../render/icons';
 import { iconGroup, writeBox } from '../../render/problem';
@@ -60,5 +61,9 @@ export const countAndWrite: QuestionType = {
     );
   },
 
-  estHeightPt: () => 84,
+  estHeightPt(data, ctx): number {
+    const { count } = data as unknown as CountWriteData;
+    const rows = rowsFor(count, iconPt(ctx) + 3, 2, ctx.contentWidthPt);
+    return rows * iconPt(ctx) + 2 * (rows - 1) + 18;
+  },
 };

@@ -1,6 +1,7 @@
 // Quantity matching: draw a line from each numeral to its group of pictures.
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { iconPt, lineH, promptH, promptLines } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { ICON_SETS } from '../../render/icons';
 import { iconGroup, prompt } from '../../render/problem';
@@ -86,7 +87,15 @@ export const quantityMatching: QuestionType = {
     return `<div class="quantity-matching">${prompt('Draw a line from each number to its group.')}<div class="match-list">${rows}</div></div>`;
   },
 
-  estHeightPt(data): number {
-    return 66 + 30 * (data as unknown as MatchingData).left.length;
+  estHeightPt(data, ctx): number {
+    const { left } = data as unknown as MatchingData;
+    const icon = iconPt(ctx);
+    // Rows are icon-tall (24pt), 6pt apart; the prompt wraps in narrow columns.
+    return (
+      promptH(ctx) +
+      (promptLines('Draw a line from each number to its group.', ctx) - 1) * lineH(ctx) +
+      left.length * icon +
+      6 * (left.length - 1)
+    );
   },
 };

@@ -2,6 +2,7 @@
 // pick the shape from a pool, the name comes from the shared shape map.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { icon } from '../../render/icons';
 import { prompt, writeBox } from '../../render/problem';
@@ -53,5 +54,7 @@ export const shapeIdentify: QuestionType = {
     );
   },
 
-  estHeightPt: () => 116,
+  estHeightPt(_data, ctx): number {
+    return promptH(ctx) + (ctx.largePrint ? 68 : 56) + answerH(ctx) + 8;
+  },
 };

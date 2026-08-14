@@ -1,6 +1,7 @@
 // Odd or even: circle the odd (or even) numbers in a list.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { chipRowH, chipW, promptH, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { numeralChip, prompt } from '../../render/problem';
 
@@ -65,5 +66,9 @@ export const oddEven: QuestionType = {
     );
   },
 
-  estHeightPt: () => 64,
+  estHeightPt(data, ctx): number {
+    const { numbers } = data as unknown as OddEvenData;
+    const rows = rowsFor(numbers.length, chipW(ctx), 8, ctx.contentWidthPt);
+    return promptH(ctx) + rows * chipRowH(ctx) + 8 * (rows - 1);
+  },
 };

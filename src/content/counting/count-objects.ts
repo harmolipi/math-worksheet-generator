@@ -1,6 +1,7 @@
 // Count the objects: icons in a row / grid / scatter, child writes the number.
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { answerH, iconPt, promptH, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { ICON_SETS } from '../../render/icons';
 import { iconGroup, iconScatter, prompt, writeBox } from '../../render/problem';
@@ -89,8 +90,15 @@ export const countObjects: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
-    const arrangement = (data as unknown as CountData).arrangement;
-    return arrangement === 'grid' ? 118 : arrangement === 'scatter' ? 108 : 92;
+  estHeightPt(data, ctx): number {
+    const { count, arrangement } = data as unknown as CountData;
+    if (arrangement === 'scatter') return promptH(ctx) + 96 + answerH(ctx) + 3; // fixed scatter box
+    const icon = iconPt(ctx);
+    if (arrangement === 'grid') {
+      const rows = Math.ceil(count / 5); // fixed 5-column grid
+      return promptH(ctx) + rows * icon + 4 * (rows - 1) + answerH(ctx) + 3;
+    }
+    const rows = rowsFor(count, icon + 3, 2, ctx.contentWidthPt);
+    return promptH(ctx) + rows * icon + 2 * (rows - 1) + answerH(ctx) + 3;
   },
 };

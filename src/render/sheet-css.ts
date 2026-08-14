@@ -485,6 +485,18 @@ svg .icon-dot { stroke-width: 3.2; }
 .frac-bar { width: 100%; max-width: 160pt; display: block; margin: 0 auto; }
 .frac-pie { width: 96pt; height: 96pt; display: block; margin: 0 auto; }
 
+/* Shape classes: SVG's UA defaults (fill: black, stroke: none) would render
+   these as solid blobs — every drawing needs explicit presentation. */
+.clock-face { fill: none; stroke: #333; stroke-width: 2; }
+.clock-tick { stroke: #444; stroke-width: 1.6; }
+.clock-hand { stroke: #222; stroke-width: 2.2; stroke-linecap: round; }
+.clock-hand.minute { stroke-width: 1.4; }
+.clock-pin { fill: #222; }
+.frac-frame { fill: none; stroke: #333; stroke-width: 2; }
+.frac-cell { stroke: #444; stroke-width: 1; }
+.b10-cell { fill: none; stroke: #444; stroke-width: 1.4; }
+.b10-frame { fill: none; stroke: #222; stroke-width: 2; }
+
 /* ── hundreds chart ─────────────────────────────────── */
 .hundreds-chart { text-align: center; }
 .hundreds-grid {

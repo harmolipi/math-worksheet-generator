@@ -3,6 +3,7 @@
 // custom asymmetric drawings (No).
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { chipRowH, lineH, promptH, promptLines } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { ICONS } from '../../render/icons';
 import { prompt } from '../../render/problem';
@@ -65,5 +66,10 @@ export const symmetry: QuestionType = {
     );
   },
 
-  estHeightPt: () => 145,
+  estHeightPt(_data, ctx): number {
+    // Prompt + fixed shape svg + Yes/No chip row; the prompt wraps in
+    // narrow columns.
+    const wrap = (promptLines('Is the dotted line a line of symmetry?', ctx) - 1) * lineH(ctx);
+    return promptH(ctx) + wrap + (ctx.largePrint ? 90 : 76) + chipRowH(ctx) + 9;
+  },
 };

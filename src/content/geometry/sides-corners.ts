@@ -2,6 +2,7 @@
 // construction: pick the shape, the count comes from the shared side map.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { icon } from '../../render/icons';
 import { prompt, writeBox } from '../../render/problem';
@@ -61,5 +62,7 @@ export const sidesCorners: QuestionType = {
     );
   },
 
-  estHeightPt: () => 116,
+  estHeightPt(_data, ctx): number {
+    return promptH(ctx) + (ctx.largePrint ? 68 : 56) + answerH(ctx) + 8;
+  },
 };

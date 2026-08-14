@@ -3,6 +3,7 @@
 // the end. Integer inches only.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt, writeBox } from '../../render/problem';
 import { rulerSvg } from '../../render/svg';
@@ -57,5 +58,11 @@ export const rulerRead: QuestionType = {
     );
   },
 
-  estHeightPt: () => 128,
+  estHeightPt(data, ctx): number {
+    const { maxInches } = data as unknown as RulerReadData;
+    const maxW = ctx.largePrint ? 240 : 220; // CSS max-width
+    const svgW = Math.min(ctx.contentWidthPt, maxW);
+    const svgH = Math.ceil((92 * svgW) / (maxInches * 40 + 30)) + 2; // viewBox aspect
+    return promptH(ctx) + svgH + answerH(ctx);
+  },
 };

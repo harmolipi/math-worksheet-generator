@@ -1,6 +1,7 @@
 // Value of a digit: "What is the 4 worth in 3,470?" — the underlined digit.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, lineH, promptH, promptLines } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt, writeBox } from '../../render/problem';
 
@@ -76,5 +77,10 @@ export const valueOfDigit: QuestionType = {
     );
   },
 
-  estHeightPt: () => 72,
+  estHeightPt(data, ctx): number {
+    const { digit } = data as unknown as ValueOfDigitData;
+    const { number } = data as unknown as ValueOfDigitData;
+    const text = `What is the ${digit} worth in ${number}?`;
+    return (promptLines(text, ctx) - 1) * lineH(ctx) + promptH(ctx) + answerH(ctx);
+  },
 };

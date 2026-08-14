@@ -3,6 +3,7 @@
 // the next element; distractors are other pool icons.
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { chipRowH, promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { ICON_SETS, icon } from '../../render/icons';
 import { prompt } from '../../render/problem';
@@ -97,5 +98,8 @@ export const nextInPattern: QuestionType = {
     );
   },
 
-  estHeightPt: () => 96,
+  estHeightPt(_data, ctx): number {
+    // Prompt + pattern icon row + option chips row.
+    return promptH(ctx) + (ctx.largePrint ? 28 : 22) + 8 + chipRowH(ctx) + 6;
+  },
 };

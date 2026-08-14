@@ -26,7 +26,11 @@ export function fractionBarSvg(numerator: number, denominator: number, suffix: s
   const cell = w / denominator;
   let cells = '';
   for (let i = 0; i < denominator; i++) {
-    const fill = i < numerator ? `fill="url(#${hatchId(suffix)})"` : '';
+    // Explicit fills on every cell: SVG's UA default fill is black, which
+    // would render unshaded cells as solid blobs. CSS fill rules can't target
+    // only the unshaded ones (a static rule would also override the per-problem
+    // hatch url attribute), so the markup carries it.
+    const fill = i < numerator ? `fill="url(#${hatchId(suffix)})"` : 'fill="none"';
     cells += `<rect x="${i * cell}" y="0" width="${cell}" height="${h}" class="frac-cell" ${fill}/>`;
   }
   return (
@@ -51,7 +55,7 @@ export function fractionPieSvg(numerator: number, denominator: number, suffix: s
     const x2 = cx + r * Math.cos(a2);
     const y2 = cy + r * Math.sin(a2);
     const large = to - from > denominator / 2 ? 1 : 0;
-    const fill = filled ? `fill="url(#${hatchId(suffix)})"` : '';
+    const fill = filled ? `fill="url(#${hatchId(suffix)})"` : 'fill="none"'; // UA default is black
     return (
       `<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} Z" ` +
       `class="frac-cell" ${fill}/>`

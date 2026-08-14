@@ -62,7 +62,7 @@ describe('manual question type', () => {
     ];
     const spec = manualSpec(questions);
     const generated = generateSections(spec, registry);
-    const { pages } = packSheet(generated, spec.layout, spec.options, registry);
+    const { pages } = packSheet(generated, spec.layout, spec.options, registry, baseSpec().gradeBand);
     const key = pages.find((p) => p.kind === 'answerKey');
     expect(key).toBeDefined();
     expect(key!.keyEntries.map((e) => [e.label, e.value])).toEqual([

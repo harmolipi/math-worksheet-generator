@@ -5,6 +5,7 @@
 // - carry 'mixed': no constraint
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { digitRowH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 
 interface AddVerticalData extends Record<string, unknown> {
@@ -140,9 +141,9 @@ export const addVertical: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
-    const { digitCount, carries } = data as unknown as AddVerticalData;
-    const hasCarryRow = carries.some((c) => c > 0);
-    return (hasCarryRow ? 122 : 108) + 18 * (digitCount - 2);
+  estHeightPt(data, ctx): number {
+    const { carries } = data as unknown as AddVerticalData;
+    const rows = 3 + (carries.some((c) => c > 0) ? 1 : 0);
+    return rows * digitRowH(ctx) + 2; // digit rows + hairline + borders
   },
 };

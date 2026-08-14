@@ -1,6 +1,7 @@
 // Ten frames: count the dots, or how many more make 10.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt, writeBox } from '../../render/problem';
 
@@ -79,5 +80,8 @@ export const tenFrame: QuestionType = {
     );
   },
 
-  estHeightPt: () => 118,
+  estHeightPt(_data, ctx): number {
+    // Prompt + fixed 48pt frame + answer line.
+    return promptH(ctx) + 50 + answerH(ctx);
+  },
 };

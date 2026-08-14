@@ -2,6 +2,7 @@
 // start + elapsed, derive the end. Same-day, clean minute steps.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, lineH, promptH, promptLines } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt, writeBox } from '../../render/problem';
 
@@ -78,5 +79,9 @@ export const elapsedTime: QuestionType = {
     );
   },
 
-  estHeightPt: () => 76,
+  estHeightPt(data, ctx): number {
+    const { startLabel, endLabel } = data as unknown as ElapsedData;
+    const text = `Start at ${startLabel}. End at ${endLabel}. How long did it take?`;
+    return (promptLines(text, ctx) - 1) * lineH(ctx) + promptH(ctx) + answerH(ctx);
+  },
 };

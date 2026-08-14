@@ -4,6 +4,7 @@
 // system, so greedy decomposition is always exact).
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { coinPt, lineH, promptH, promptLines, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { coinGroup } from '../../render/svg';
 import { blank, prompt } from '../../render/problem';
@@ -76,5 +77,39 @@ export const moneyAdd: QuestionType = {
     );
   },
 
-  estHeightPt: () => 112,
+  estHeightPt(data, ctx): number {
+    const { aCoins, bCoins } = data as unknown as MoneyAddData;
+    const coin = coinPt(ctx);
+    // Each coin group caps at 132pt wide (CSS) and wraps internally.
+    const groupW = (n: number): number => Math.min(132, n * (coin + 4));
+    const groupH = (n: number): number => {
+      const rows = rowsFor(n, coin, 4, 132);
+      return rows * coin + 4 * (rows - 1);
+    };
+    // Greedy line-wrap of [a, +, b, =, blank] mirroring flex-wrap: fit as
+    // many children as width allows, each line as tall as its tallest child.
+    const widths = [groupW(aCoins.length), 30, groupW(bCoins.length), 30, 44];
+    const heights = [groupH(aCoins.length), 30, groupH(bCoins.length), 30, 44];
+    const lineHeights: number[] = [];
+    let cur = 0;
+    let curMax = 0;
+    for (let i = 0; i < widths.length; i++) {
+      const step = widths[i] + (cur > 0 ? 8 : 0);
+      if (cur + step > ctx.contentWidthPt && cur > 0) {
+        lineHeights.push(curMax);
+        cur = widths[i];
+        curMax = heights[i];
+      } else {
+        cur += step;
+        curMax = Math.max(curMax, heights[i]);
+      }
+    }
+    lineHeights.push(curMax);
+    const total = lineHeights.reduce((a, b) => a + b, 0) + 8 * (lineHeights.length - 1);
+    return (
+      promptH(ctx) +
+      (promptLines('Add the money. How much altogether?', ctx) - 1) * lineH(ctx) +
+      total
+    );
+  },
 };

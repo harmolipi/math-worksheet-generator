@@ -100,6 +100,17 @@ export interface ParamSpec {
   group?: string;
 }
 
+/** Layout context for height estimation: what the packer knows about the
+ *  grid cell a problem will render into. Derived from the sheet spec, not
+ *  measured — estimation stays a pure function. */
+export interface EstContext {
+  /** Cell content width in pt: paper − margins − column gap − label padding. */
+  contentWidthPt: number;
+  /** Body font size in pt (13 playful / 11.5 body / 14 largePrint). */
+  basePt: number;
+  largePrint: boolean;
+}
+
 export interface GenCtx {
   /** Target numeric grade level for this problem. */
   gradeLevel: number;
@@ -127,9 +138,11 @@ export interface QuestionType {
   /**
    * Hard-coded conservative height estimate in points for a generated problem
    * (never measured at runtime). Receives the problem's DATA — anything the
-   * estimate needs (arrangement, layout, digit count…) must be stored there.
+   * estimate needs (arrangement, layout, digit count…) must be stored there —
+   * plus the layout context of the grid cell it will render into (content
+   * width drives flex-wrap row counts, basePt drives line heights).
    */
-  estHeightPt?(data: object): number;
+  estHeightPt?(data: object, ctx: EstContext): number;
   /** Extra validation beyond ParamSpec (e.g. array-valued params like manual questions). */
   validateParams?(params: Record<string, unknown>): string[];
 }

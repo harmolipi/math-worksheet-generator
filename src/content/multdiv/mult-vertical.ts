@@ -1,6 +1,7 @@
 // Vertical multiplication: multi-digit × single-digit.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { digitRowH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 
 interface MultVerticalData extends Record<string, unknown> {
@@ -80,7 +81,7 @@ export const multVertical: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
-    return 104 + 18 * ((data as unknown as MultVerticalData).digitCount - 2);
+  estHeightPt(_data, ctx): number {
+    return 3 * digitRowH(ctx) + 2; // top/bottom/answer rows + hairline
   },
 };

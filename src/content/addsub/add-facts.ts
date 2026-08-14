@@ -1,6 +1,7 @@
 // Addition facts: a + b = ___ — answers by construction (sum first, then split).
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { digitRowH, factH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { blank } from '../../render/problem';
 
@@ -75,7 +76,10 @@ export const addFacts: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
-    return (data as unknown as AddFactsData).format === 'vertical' ? 96 : 52;
+  estHeightPt(data, ctx): number {
+    if ((data as unknown as AddFactsData).format === 'vertical') {
+      return 3 * digitRowH(ctx) + 2; // two digit rows + answer row
+    }
+    return factH(ctx);
   },
 };

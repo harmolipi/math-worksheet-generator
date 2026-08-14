@@ -1,6 +1,7 @@
 // Compare numbers: write >, <, or = between two numbers.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { factH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { writeBox } from '../../render/problem';
 
@@ -55,5 +56,7 @@ export const compareNumbers: QuestionType = {
     );
   },
 
-  estHeightPt: () => 52,
+  estHeightPt(_data, ctx): number {
+    return factH(ctx);
+  },
 };

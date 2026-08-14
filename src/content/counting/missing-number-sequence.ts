@@ -1,6 +1,7 @@
 // Missing number in a sequence: 3, 4, ___, 6 — write the missing number.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { chipRowH, chipW, promptH, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { numeralChip, prompt, writeBox } from '../../render/problem';
 
@@ -69,5 +70,9 @@ export const missingNumberSequence: QuestionType = {
     );
   },
 
-  estHeightPt: () => 64,
+  estHeightPt(data, ctx): number {
+    const { sequence } = data as unknown as SequenceData;
+    const rows = rowsFor(sequence.length, chipW(ctx), 8, ctx.contentWidthPt);
+    return promptH(ctx) + rows * chipRowH(ctx) + 8 * (rows - 1);
+  },
 };

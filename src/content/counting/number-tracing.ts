@@ -1,6 +1,7 @@
 // Number tracing: dotted digits to trace, then write it yourself.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { promptH, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt, traceDigit, writeBox } from '../../render/problem';
 
@@ -71,8 +72,13 @@ export const numberTracing: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
+  estHeightPt(data, ctx): number {
     const count = (data as unknown as TracingData).numbers.length;
-    return 100 + 96 * Math.ceil(count / 3);
+    const pairW = ctx.largePrint ? 84 : 72; // .trace-digit widths
+    // LargePrint pairs measure taller than svg + label alone (write-box
+    // chrome at 14pt); keep the LP pad bigger.
+    const pairH = (ctx.largePrint ? 96 : 84) + 4 + Math.ceil(ctx.basePt * 1.15) + (ctx.largePrint ? 12 : 4);
+    const rows = rowsFor(count, pairW, 14, ctx.contentWidthPt);
+    return promptH(ctx) + rows * pairH + 6 * (rows - 1);
   },
 };

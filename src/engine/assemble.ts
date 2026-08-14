@@ -26,6 +26,7 @@ export function assembleSheet(
     spec.layout,
     spec.options,
     types,
+    spec.gradeBand,
   );
   const html = pages
     .map((page) =>

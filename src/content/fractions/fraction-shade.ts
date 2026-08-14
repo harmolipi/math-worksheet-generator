@@ -2,6 +2,7 @@
 // are hatch-patterned SVG (prints even without background graphics).
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, promptH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { fractionBarSvg, fractionPieSvg } from '../../render/svg';
 import { prompt, writeBox } from '../../render/problem';
@@ -77,9 +78,11 @@ export const fractionShade: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
+  estHeightPt(data, ctx): number {
     const { shape } = data as unknown as ShadeData;
-    // Pie draws taller than the bar; keep both conservative (invariant 8).
-    return shape === 'pie' ? 150 : 110;
+    // Pie is a fixed 96pt svg; the bar is 160pt wide × 32pt tall.
+    return shape === 'pie'
+      ? promptH(ctx) + 96 + answerH(ctx) + 3
+      : promptH(ctx) + 32 + answerH(ctx) + 3;
   },
 };

@@ -4,6 +4,7 @@
 // the legend is text ("3 = red"), so an uncolored print still works.
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { legendW, lineH, promptH, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt } from '../../render/problem';
 
@@ -95,8 +96,17 @@ export const colorByNumber: QuestionType = {
     );
   },
 
-  estHeightPt(data): number {
+  estHeightPt(data, ctx): number {
     const d = data as unknown as ColorByNumberData;
-    return d.cells.length > 6 ? 168 : 132;
+    const cell = ctx.largePrint ? 48 : 40;
+    const gridRows = Math.ceil(d.cells.length / 3); // fixed 3-column grid
+    const legendRows = rowsFor(d.legend.length, legendW(ctx), 12, ctx.contentWidthPt);
+    return (
+      promptH(ctx) +
+      gridRows * (cell + 8) +
+      8 * (gridRows - 1) +
+      legendRows * lineH(ctx) +
+      8 * (legendRows - 1)
+    );
   },
 };

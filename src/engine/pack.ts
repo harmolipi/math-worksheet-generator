@@ -2,9 +2,17 @@
 // hard-coded estHeightPt (never measured at runtime). A problem never splits
 // across pages; page capacity uses a conservative factor so real rendering
 // always fits.
+//
+// The packing model mirrors the actual CSS grid (`.sheet-content`):
+// row-major auto-placement, each row as tall as its tallest problem (grid
+// items stretch), a 16pt gap between rows. Page breaks happen on row
+// boundaries, so a problem never shares a row across two pages.
 
 import {
   SheetError,
+  GRADE_LEVEL,
+  type EstContext,
+  type GradeBand,
   type LayoutSpec,
   type OptionsSpec,
   type Problem,
@@ -40,21 +48,53 @@ export const PAGE_DIMS: Record<'letter' | 'a4', { wPt: number; hPt: number }> = 
 };
 
 const MARGIN_PT = 36; // 0.5in all around
-const HEADER_PT = 88; // title + name/date lines
-const FOOTER_PT = 28;
-const CAPACITY_FACTOR = 0.92; // conservative — never overfill
-const KEY_ENTRY_PT = 30;
+/** Calibrated chrome (sheet-css, measured): .sheet-header is always emitted
+ *  (16pt bottom margin even when empty); title block ≈ 44pt; the name/date/
+ *  class row ≈ 21pt. Footer ≈ 26pt incl. margin, only when page numbers show. */
+const HEADER_MARGIN_PT = 16;
+const TITLE_PT = 44;
+const NAME_ROW_PT = 21;
+const FOOTER_PT = 26;
+const GAP_ROW_PT = 16; // grid row gap
+const GAP_COL_PT = 20; // grid column gap
+const LABEL_PAD_PT = 22; // .problem padding-left
+const CAPACITY_FACTOR = 0.95; // safety margin over exact estimates
+const KEY_ENTRY_PT = 28;
 const DEFAULT_EST_PT = 72;
-/** Workspace area under a problem: margin-top + height (sheet-css values). */
-const WORKSPACE_BOX_PT = 10 + 40;
-const WORKSPACE_BOX_LARGE_PT = 10 + 48;
+/** Workspace area under a problem: margin-top + height + borders (sheet-css). */
+const WORKSPACE_BOX_PT = 10 + 40 + 2;
+const WORKSPACE_BOX_LARGE_PT = 10 + 48 + 2;
 export const MAX_PAGES = 20;
 
 const COLUMN_LETTERS = ['A', 'B', 'C'];
 
-function contentCapacity(layout: LayoutSpec): number {
+function headerEstPt(layout: LayoutSpec): number {
+  let h = HEADER_MARGIN_PT;
+  if (layout.header.title) h += TITLE_PT;
+  if (layout.header.name || layout.header.date || layout.header.classLine) h += NAME_ROW_PT;
+  return h;
+}
+
+function footerEstPt(options: OptionsSpec): number {
+  return options.showPageNumbers ? FOOTER_PT : 0;
+}
+
+function contentCapacity(layout: LayoutSpec, options: OptionsSpec): number {
   const { hPt } = PAGE_DIMS[layout.pageSize];
-  return Math.floor((hPt - 2 * MARGIN_PT - HEADER_PT - FOOTER_PT) * CAPACITY_FACTOR);
+  const available = hPt - 2 * MARGIN_PT - headerEstPt(layout) - footerEstPt(options);
+  return Math.floor(available * CAPACITY_FACTOR);
+}
+
+/** Grid cell content width in pt (what estHeightPt sees for flex-wrap math). */
+function contentWidthPt(layout: LayoutSpec): number {
+  const { wPt } = PAGE_DIMS[layout.pageSize];
+  const colW = Math.floor((wPt - 2 * MARGIN_PT - (layout.columns - 1) * GAP_COL_PT) / layout.columns);
+  return colW - LABEL_PAD_PT;
+}
+
+function estContext(layout: LayoutSpec, options: OptionsSpec, gradeLevel: number): EstContext {
+  const basePt = options.largePrint ? 14 : gradeLevel <= 3 ? 13 : 11.5;
+  return { contentWidthPt: contentWidthPt(layout), basePt, largePrint: options.largePrint };
 }
 
 /** Height cost of the show-your-work area; per-problem override (manual) wins. */
@@ -96,8 +136,11 @@ export function packSheet(
   layout: LayoutSpec,
   options: OptionsSpec,
   types: Map<string, QuestionType>,
+  gradeBand: GradeBand,
 ): PackResult {
-  const capacity = contentCapacity(layout);
+  const capacity = contentCapacity(layout, options);
+  const gradeLevel = GRADE_LEVEL[gradeBand];
+  const ctx = estContext(layout, options, gradeLevel);
   const pages: PackedPage[] = [];
   const packed: PackedProblem[] = [];
 
@@ -108,10 +151,31 @@ export function packSheet(
     keyEntries: [],
     contentHeightPt: 0,
   };
-  let cursor = 0;
   let seq = 0;
+  /** Current open row: raw problems + their sequence numbers. Labels are
+   *  assigned when the row commits — a page break can move a row to the next
+   *  page, and page-mode labels depend on the FINAL position in that page. */
+  let rowItems: { problem: Problem; seq: number }[] = [];
+  let rowEst = 0;
+  /** Running content height of the open page (rows + gaps). */
+  let total = 0;
 
-  const pushPage = () => {
+  const commitRow = () => {
+    total += rowEst + (page.problems.length > 0 ? GAP_ROW_PT : 0);
+    for (const item of rowItems) {
+      const packedProblem: PackedProblem = {
+        ...item.problem,
+        label: nextLabel(layout, page.problems.length, item.seq),
+      };
+      page.problems.push(packedProblem);
+      packed.push(packedProblem);
+    }
+    rowItems = [];
+    rowEst = 0;
+  };
+
+  const newPage = () => {
+    page.contentHeightPt = total;
     pages.push(page);
     page = {
       number: pages.length + 1,
@@ -120,7 +184,7 @@ export function packSheet(
       keyEntries: [],
       contentHeightPt: 0,
     };
-    cursor = 0;
+    total = 0;
   };
 
   for (const section of generated) {
@@ -128,22 +192,28 @@ export function packSheet(
       const type = types.get(problem.typeId);
       const est = Math.min(
         capacity,
-        (type?.estHeightPt?.(problem.data) ?? DEFAULT_EST_PT) +
+        (type?.estHeightPt?.(problem.data, ctx) ?? DEFAULT_EST_PT) +
           workspaceCost(layout, options, problem),
       );
-      if (cursor + est > capacity && page.problems.length > 0) pushPage();
+      if (rowItems.length >= layout.columns) {
+        // A row never straddles pages: break BEFORE it if it won't fit.
+        const rowCost = rowEst + (page.problems.length > 0 ? GAP_ROW_PT : 0);
+        if (total + rowCost > capacity) newPage();
+        commitRow();
+      }
       seq += 1;
-      const packedProblem: PackedProblem = {
-        ...problem,
-        label: nextLabel(layout, page.problems.length, seq),
-      };
-      page.problems.push(packedProblem);
-      packed.push(packedProblem);
-      cursor += est;
-      page.contentHeightPt = cursor;
+      rowItems.push({ problem, seq });
+      rowEst = Math.max(rowEst, est);
     }
   }
-  pages.push(page);
+  if (rowItems.length > 0) {
+    // The final row may be partial (fewer items than columns) and never went
+    // through the fit check — verify it before committing.
+    const rowCost = rowEst + (page.problems.length > 0 ? GAP_ROW_PT : 0);
+    if (total + rowCost > capacity) newPage();
+    commitRow();
+  }
+  newPage();
   const worksheetPageCount = pages.length;
 
   // Answer key pages (list style): worksheet labels + answers, numbered separately.

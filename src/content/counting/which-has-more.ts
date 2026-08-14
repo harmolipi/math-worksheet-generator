@@ -1,6 +1,7 @@
 // Which has more? Two picture groups; circle the larger (or smaller).
 
 import { canonicalJson, fingerprintOf } from '../../engine/fingerprint';
+import { iconPt, promptH, rowsFor } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { ICON_SETS } from '../../render/icons';
 import { iconGroup, prompt } from '../../render/problem';
@@ -90,5 +91,16 @@ export const whichHasMore: QuestionType = {
     );
   },
 
-  estHeightPt: () => 106,
+  estHeightPt(data, ctx): number {
+    const { left, right } = data as unknown as CompareData;
+    const icon = iconPt(ctx);
+    // Two compare boxes side by side: tag (incl. 6pt margin) + icon rows +
+    // padding; icons wrap when the halved column is narrow.
+    const boxW = Math.floor((ctx.contentWidthPt - 14) / 2) - 19;
+    const boxH = (count: number): number => {
+      const rows = rowsFor(count, icon + 3, 2, boxW);
+      return 14 + rows * icon + 2 * (rows - 1) + 25;
+    };
+    return promptH(ctx) + 2 + Math.max(boxH(left.count), boxH(right.count));
+  },
 };

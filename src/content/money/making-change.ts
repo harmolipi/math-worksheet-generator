@@ -2,6 +2,7 @@
 // construction: pick the price, derive the change (always positive).
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { answerH, lineH, promptH, promptLines } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { prompt, writeBox } from '../../render/problem';
 
@@ -59,5 +60,9 @@ export const makingChange: QuestionType = {
     );
   },
 
-  estHeightPt: () => 64,
+  estHeightPt(data, ctx): number {
+    const { bill, price } = data as unknown as MakingChangeData;
+    const text = `You pay with $${bill}. It costs ${price}¢. How much change?`;
+    return (promptLines(text, ctx) - 1) * lineH(ctx) + promptH(ctx) + answerH(ctx);
+  },
 };

@@ -1,6 +1,7 @@
 // Multiples of 10: 30 × 4 = ___ — the friendly first step toward big products.
 
 import { fingerprintOf } from '../../engine/fingerprint';
+import { factH } from '../estimate';
 import type { Problem, QuestionType } from '../../engine/spec';
 import { blank } from '../../render/problem';
 
@@ -52,5 +53,7 @@ export const multOf10: QuestionType = {
     );
   },
 
-  estHeightPt: () => 52,
+  estHeightPt(_data, ctx): number {
+    return factH(ctx);
+  },
 };
