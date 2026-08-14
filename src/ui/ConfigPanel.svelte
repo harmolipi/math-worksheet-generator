@@ -32,6 +32,13 @@
     store,
     toggleSets,
     updateManualQuestion,
+    applyRawSpec,
+    deleteFavorite,
+    favorites,
+    loadFavorite,
+    rawEditor,
+    refreshRawEditor,
+    saveFavorite,
   } from './state.svelte';
   import type { ManualQuestion } from '../content/manual/manual';
 
@@ -108,6 +115,27 @@
 
   // Which section has its type picker open (one at a time).
   let pickerOpen = $state<number | null>(null);
+
+  let favoriteName = $state('');
+
+  // Native-listener actions for the favorites / raw-spec controls. These
+  // attach addEventListener directly (Svelte's root-delegated handlers have
+  // proven unreliable for controls inside these details groups in this app —
+  // non-delegated handlers like ontoggle work, delegated click/input don't).
+  function nativeClick(node: HTMLElement, fn: () => void) {
+    node.addEventListener('click', fn);
+    return {
+      destroy: () => node.removeEventListener('click', fn),
+    };
+  }
+
+  function nativeInput(node: HTMLInputElement | HTMLTextAreaElement, fn: (value: string) => void) {
+    const listener = () => fn(node.value);
+    node.addEventListener('input', listener);
+    return {
+      destroy: () => node.removeEventListener('input', listener),
+    };
+  }
 
   let copied = $state(false);
   let copiedTimer: ReturnType<typeof setTimeout> | undefined;
@@ -493,4 +521,72 @@
       </p>
     {/if}
   </div>
+
+  <!-- Saved sheets -->
+  <details class="group details" open>
+    <summary>Saved sheets</summary>
+    <div class="favorite-save-row">
+      <input
+        class="favorite-name-input"
+        type="text"
+        maxlength="80"
+        placeholder="Name this sheet…"
+        value={favoriteName}
+        use:nativeInput={(v) => (favoriteName = v)}
+      />
+      <button
+        type="button"
+        class="btn-secondary favorite-save-btn"
+        use:nativeClick={() => {
+          saveFavorite(favoriteName);
+          favoriteName = '';
+        }}
+      >
+        Save
+      </button>
+    </div>
+    {#if favorites.list.length === 0}
+      <p class="section-empty">Saved sheets stay on this device (this browser).</p>
+    {:else}
+      <div class="favorite-list">
+        {#each favorites.list as fav (fav.name)}
+          <div class="favorite-row">
+            <button type="button" class="favorite-open" use:nativeClick={() => loadFavorite(fav.name)}>
+              {fav.name}
+            </button>
+            <button
+              type="button"
+              class="icon-btn"
+              aria-label={`Delete saved sheet ${fav.name}`}
+              use:nativeClick={() => deleteFavorite(fav.name)}
+            >
+              ×
+            </button>
+          </div>
+        {/each}
+      </div>
+    {/if}
+  </details>
+
+  <!-- Expert: raw sheet data -->
+  <details class="group details" open ontoggle={(e) => e.currentTarget.open && refreshRawEditor()}>
+    <summary>Expert: sheet data</summary>
+    <p class="manual-hint">
+      The full worksheet config as JSON — same data a share link carries.
+    </p>
+    <textarea
+      class="raw-spec-input"
+      rows="10"
+      spellcheck="false"
+      value={rawEditor.text ?? ''}
+      use:nativeInput={(v) => (rawEditor.text = v)}
+    ></textarea>
+    {#if rawEditor.error !== ''}
+      <p class="raw-spec-error" role="alert">{rawEditor.error}</p>
+    {/if}
+    <div class="seed-actions">
+      <button type="button" class="btn-secondary" use:nativeClick={refreshRawEditor}>Reset</button>
+      <button type="button" class="btn-secondary" use:nativeClick={applyRawSpec}>Apply</button>
+    </div>
+  </details>
 </div>

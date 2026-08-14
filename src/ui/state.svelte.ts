@@ -1,10 +1,13 @@
 // Config state — module-level runes (.svelte.ts). All spec mutations go
 // through these actions so URL sync, preview, and validation stay consistent.
 
+// (no svelte import needed — the spec is plain JSON data; snapshots go
+//  through JSON round-trips, since structuredClone throws on $state proxies)
 import {
   decodeSpec,
   encodeSpec,
   typeMap,
+  validateSpec,
   type GradeBand,
   type LayoutSpec,
   type OptionsSpec,
@@ -175,4 +178,111 @@ export function loadFromHash(): void {
 /** The canonical share URL for the current sheet. */
 export function shareLink(): string {
   return location.origin + location.pathname + '#' + encodeSpec(store.spec);
+}
+
+// ── Favorites (localStorage) ─────────────────────────────────────────────
+// UI-only persistence: named sheets saved on this device. The engine never
+// touches localStorage; favorites travel through the same spec the URL hash
+// uses, so loading one behaves exactly like opening a shared link.
+
+export interface Favorite {
+  name: string;
+  spec: WorksheetSpec;
+  savedAt: number;
+}
+
+const FAVORITES_KEY = 'worksheet-desk:favorites';
+const MAX_FAVORITES = 40;
+
+function readFavorites(): Favorite[] {
+  try {
+    const raw = localStorage.getItem(FAVORITES_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (f): f is Favorite =>
+        typeof f === 'object' && f !== null && typeof f.name === 'string' && f.spec !== null,
+    );
+  } catch {
+    return [];
+  }
+}
+
+export const favorites = $state({ list: readFavorites() });
+
+function persistFavorites(): void {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites.list));
+  } catch {
+    // Private mode / quota — favorites just don't persist this session.
+  }
+}
+
+export function saveFavorite(name: string): void {
+  const trimmed = name.trim().slice(0, 80);
+  if (trimmed === '') return;
+  // JSON round-trip (not structuredClone): store.spec is a $state proxy, and
+  // structuredClone throws DataCloneError on proxies. The spec is plain JSON
+  // data — this is the same shape the share link carries.
+  const entry: Favorite = {
+    name: trimmed,
+    spec: JSON.parse(JSON.stringify(store.spec)) as WorksheetSpec,
+    savedAt: Date.now(),
+  };
+  const existing = favorites.list.findIndex((f) => f.name === trimmed);
+  if (existing >= 0) {
+    favorites.list[existing] = entry; // same name re-saves over the old one
+  } else {
+    favorites.list.unshift(entry);
+    if (favorites.list.length > MAX_FAVORITES) favorites.list.length = MAX_FAVORITES;
+  }
+  persistFavorites();
+}
+
+export function deleteFavorite(name: string): void {
+  favorites.list = favorites.list.filter((f) => f.name !== name);
+  persistFavorites();
+}
+
+export function loadFavorite(name: string): void {
+  const fav = favorites.list.find((f) => f.name === name);
+  if (!fav) return;
+  // JSON round-trip: fav.spec is re-proxied by the favorites $state store,
+  // and structuredClone throws DataCloneError on proxies.
+  store.spec = JSON.parse(JSON.stringify(fav.spec)) as WorksheetSpec;
+}
+
+// ── Raw spec editor (expert view) ────────────────────────────────────────
+
+/** The raw editor's working text; null = not opened (lazily refreshed). */
+export const rawEditor = $state({
+  text: null as string | null,
+  error: '',
+});
+
+/** Refresh the raw editor from the current spec (on open / after reset). */
+export function refreshRawEditor(): void {
+  rawEditor.text = JSON.stringify(store.spec, null, 2);
+  rawEditor.error = '';
+}
+
+/** Apply the raw JSON: validate like a hostile URL, then swap the spec. */
+export function applyRawSpec(): void {
+  if (rawEditor.text === null) return;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(rawEditor.text);
+  } catch (e) {
+    rawEditor.error = e instanceof Error ? `Not valid JSON: ${e.message}` : 'Not valid JSON.';
+    return;
+  }
+  const result = validateSpec(parsed, typeMap);
+  if (!result.ok) {
+    rawEditor.error = result.errors.join(' ');
+    return;
+  }
+  store.spec = result.spec;
+  rawEditor.text = JSON.stringify(result.spec, null, 2); // canonical form
+  rawEditor.error = '';
 }

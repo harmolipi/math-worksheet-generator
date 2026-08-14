@@ -402,6 +402,80 @@ button {
   color: var(--ink);
 }
 
+/* Saved sheets (favorites) */
+.favorite-save-row {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.favorite-name-input {
+  flex: 1;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 5px 8px;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.favorite-save-btn {
+  flex: 0 0 auto;
+  padding: 5px 12px;
+}
+
+.favorite-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.favorite-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--hairline);
+}
+
+.favorite-open {
+  flex: 1;
+  text-align: left;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--ink);
+  padding: 6px 2px;
+}
+
+.favorite-open:hover {
+  color: var(--pencil-deep);
+  text-decoration: underline;
+}
+
+/* Expert raw spec editor */
+.raw-spec-input {
+  width: 100%;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.72rem;
+  padding: 8px;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  resize: vertical;
+}
+
+.raw-spec-error {
+  margin: 6px 0 0;
+  color: var(--redpen);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
 /* Type picker */
 .type-picker {
   margin-top: 10px;
