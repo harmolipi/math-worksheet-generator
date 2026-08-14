@@ -100,6 +100,8 @@ export interface ParamSpec {
 export interface GenCtx {
   /** Target numeric grade level for this problem. */
   gradeLevel: number;
+  /** Position within the section (0-based) — types like manual use it. */
+  index: number;
 }
 
 export interface QuestionType {

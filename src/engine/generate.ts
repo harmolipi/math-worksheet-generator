@@ -94,11 +94,12 @@ export function generateSections(
 
       const level = resolveLevel(rng, spec, difficulty);
       const params = resolveParams(type, level, section.params?.[typeId]);
+      const ctx = { gradeLevel: level, index: problems.length };
 
-      let problem = type.generate(rng, params, { gradeLevel: level });
+      let problem = type.generate(rng, params, ctx);
       let retries = 0;
       while (seen.has(problem.fingerprint) && retries < DEDUPE_RETRIES) {
-        problem = type.generate(rng, params, { gradeLevel: level });
+        problem = type.generate(rng, params, ctx);
         retries++;
       }
       seen.add(problem.fingerprint);

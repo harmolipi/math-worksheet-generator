@@ -2,6 +2,7 @@
 // pagination, answer keys, and printing as generated problems.
 
 import type { QuestionType } from '../../engine/spec';
+import { manualType } from './manual';
 
 export const manualSubject = {
   id: 'manual',
@@ -9,4 +10,4 @@ export const manualSubject = {
   gradeRange: ['preK', 'G5'] as const,
 };
 
-export const manualTypes: QuestionType[] = [];
+export const manualTypes: QuestionType[] = [manualType];
