@@ -5,6 +5,10 @@
   // Phase 1 preview: fixed demo spec. The config UI (task 7) replaces this.
   const spec = $state(defaultSpec());
   const sheet = $derived.by(() => assembleSheet(spec, typeMap));
+  // Style + markup as ONE raw string: Svelte treats <style> elements in
+  // component markup specially (hoisting), so the stylesheet must travel
+  // inside {@html} to land in the DOM verbatim.
+  const sheetMarkup = $derived(`<style>${sheet.css}</style>${sheet.html}`);
 
   let viewportEl: HTMLDivElement | undefined = $state();
   let viewportW = $state(800);
@@ -40,15 +44,13 @@
       class="scaler"
       style={`transform: scale(${scale}); transform-origin: top left;`}
     >
-      <style>{sheet.css}</style>
-      {@html sheet.html}
+      {@html sheetMarkup}
     </div>
   </div>
 </div>
 
 <div class="print-only">
-  <style>{sheet.css}</style>
-  {@html sheet.html}
+  {@html sheetMarkup}
 </div>
 
 <style>
