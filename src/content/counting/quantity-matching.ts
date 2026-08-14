@@ -33,7 +33,7 @@ export const quantityMatching: QuestionType = {
       key: 'iconSet',
       label: 'Pictures',
       type: 'select',
-      options: ['mixed', 'shapes', 'fruit', 'animals', 'objects'],
+      options: ['mixed', 'shapes', 'fruit', 'animals', 'objects', 'polygons', 'vehicles', 'foods', 'weather', 'moreAnimals', 'moreObjects', 'mixedPlus'],
       default: 'mixed',
     },
   ],
