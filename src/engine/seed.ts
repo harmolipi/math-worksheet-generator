@@ -31,3 +31,13 @@ export function splitmix32(a: number): number {
 export function deriveVariantSeed(baseSeed: number, k: number): number {
   return splitmix32(baseSeed ^ fnv1a('variant:' + k));
 }
+
+/**
+ * Variant seed as a spec `seed` string (Sets A–F). Seeds travel as strings
+ * in the spec, so the splitmix32-mixed value is decimal-encoded here; the
+ * engine re-hashes it through normalizeSeed — deterministic and nowhere
+ * near adjacent mulberry32 seeds.
+ */
+export function variantSeedString(base: string, k: number): string {
+  return String(deriveVariantSeed(normalizeSeed(base), k));
+}

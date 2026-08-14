@@ -2,7 +2,7 @@
 // Everything returns HTML strings; user text is escaped here.
 
 import type { PackedPage, PackedProblem } from '../engine/pack';
-import type { OptionsSpec, QuestionType, WorksheetSpec } from '../engine/spec';
+import { GRADE_LEVEL, type OptionsSpec, type QuestionType, type WorksheetSpec } from '../engine/spec';
 import { escapeHtml } from './html';
 
 export function headerHtml(spec: WorksheetSpec): string {
@@ -39,13 +39,27 @@ export function workspaceHtml(spec: WorksheetSpec, problem: PackedProblem): stri
   return `<div class="workspace-${mode}"></div>`;
 }
 
+/** Small filled star marking a challenge problem (above the sheet's band).
+ *  Inline SVG — the ★ glyph is not in the bundled latin font subsets. */
+export function challengeStarSvg(): string {
+  return (
+    `<span class="challenge-star" role="img" aria-label="Challenge problem">` +
+    `<svg viewBox="0 0 24 24" aria-hidden="true">` +
+    `<polygon points="12,3 14.7,8.6 20.8,9.3 16.3,13.5 17.5,19.5 12,16.5 6.5,19.5 7.7,13.5 3.2,9.3 9.3,8.6" fill="currentColor" stroke="none"/>` +
+    `</svg></span>`
+  );
+}
+
 export function problemCellHtml(
   spec: WorksheetSpec,
   problem: PackedProblem,
   type: QuestionType,
 ): string {
   const answerAttr = problem.answer ? escapeHtml(problem.answer.value) : '';
-  const label = `<span class="problem-label">${escapeHtml(problem.label)}</span>`;
+  const challenge = problem.gradeLevel > GRADE_LEVEL[spec.gradeBand];
+  const label =
+    `<span class="problem-label">${escapeHtml(problem.label)}</span>` +
+    (challenge ? challengeStarSvg() : '');
   const body = `<div class="problem-body">${type.render(problem)}</div>`;
   const workspace = workspaceHtml(spec, problem);
   return (

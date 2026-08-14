@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { assembleSheet } from '../../src/engine/assemble';
 import { typeMap } from '../../src/engine/registry';
+import { variantSeedString } from '../../src/engine/seed';
 import { baseSpec } from '../helpers/fake-type';
 
 const ASSEMBLE_TYPES = typeMap; // real registry: counting + addsub + manual
@@ -88,5 +89,28 @@ describe('assembleSheet', () => {
   it('marks pages with content-height data for the overflow lint', () => {
     const result = assembleSheet(assembleSpec(), ASSEMBLE_TYPES);
     expect(result.html).toContain('data-content-h=');
+  });
+
+  it('Sets A–F: six variant seeds yield six distinct sheets (anti-cheat)', () => {
+    const spec = assembleSpec({ seed: 'variants-base' });
+    const variants = Array.from({ length: 6 }, (_, k) =>
+      assembleSheet({ ...spec, seed: variantSeedString(spec.seed, k) }, ASSEMBLE_TYPES),
+    );
+    // Each sheet differs from every other sheet — nobody copies off a neighbor.
+    const htmls = variants.map((v) => v.html);
+    expect(new Set(htmls).size).toBe(6);
+    // Manual problems (none here) would be the only shared content.
+    expect(variants.every((v) => v.worksheetPageCount === variants[0].worksheetPageCount)).toBe(true);
+  });
+
+  it('challenge problems get a star badge; on-grade problems do not', () => {
+    const spec = assembleSpec({
+      gradeBand: 'K',
+      sections: [{ typeIds: ['count-objects'], counts: [8], difficulty: 'challenge' }],
+    });
+    const result = assembleSheet(spec, ASSEMBLE_TYPES);
+    expect(result.html).toContain('challenge-star');
+    const onGrade = assembleSheet(assembleSpec(), ASSEMBLE_TYPES);
+    expect(onGrade.html).not.toContain('challenge-star');
   });
 });

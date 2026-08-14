@@ -26,6 +26,7 @@
     setTypeCount,
     shareLink,
     store,
+    toggleSets,
   } from './state.svelte';
 
   const spec = $derived(store.spec);
@@ -373,5 +374,18 @@
       <button type="button" class="btn-secondary" onclick={newNumbers}>New numbers</button>
       <button type="button" class="btn-secondary" onclick={copyLink}>{copied ? 'Link copied' : 'Copy link'}</button>
     </div>
+    <div class="setting-row">
+      <span class="setting-label">Sets A–F</span>
+      <label class="toggle">
+        <input type="checkbox" checked={store.setsMode} onchange={toggleSets} />
+        Six variant sheets
+      </label>
+    </div>
+    {#if store.setsMode}
+      <p class="section-empty">
+        Each set gets its own numbers (anti-cheat copies). Turn on the
+        <b>Title</b> header line to print each set's letter.
+      </p>
+    {/if}
   </div>
 </div>

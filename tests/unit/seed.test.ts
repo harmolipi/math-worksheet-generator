@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { deriveVariantSeed, fnv1a, normalizeSeed, splitmix32 } from '../../src/engine/seed';
+import {
+  deriveVariantSeed,
+  fnv1a,
+  normalizeSeed,
+  splitmix32,
+  variantSeedString,
+} from '../../src/engine/seed';
 
 describe('seed', () => {
   it('normalizeSeed is deterministic and stable', () => {
@@ -32,5 +38,21 @@ describe('seed', () => {
     const v3 = deriveVariantSeed(base, 2);
     expect(new Set([base, v1, v2, v3]).size).toBe(4);
     expect(deriveVariantSeed(base, 1)).toBe(v2); // deterministic
+  });
+
+  it('variantSeedString is deterministic, distinct, and uncorrelated across sets', () => {
+    const base = 'sheet-abc';
+    const seeds = ['A', 'B', 'C', 'D', 'E', 'F'].map((_, k) => variantSeedString(base, k));
+    // Deterministic and distinct across sets, and never the base seed itself.
+    expect(new Set(seeds).size).toBe(6);
+    expect(seeds.every((s) => s !== base)).toBe(true);
+    expect(variantSeedString(base, 2)).toBe(seeds[2]);
+    // After normalizeSeed, adjacent sets must not be adjacent integers
+    // (mulberry32 adjacent-seed correlation is the thing to avoid).
+    const norms = seeds.map((s) => normalizeSeed(s));
+    expect(new Set(norms).size).toBe(6);
+    for (let i = 1; i < norms.length; i++) {
+      expect(Math.abs(norms[i] - norms[i - 1])).toBeGreaterThan(1);
+    }
   });
 });

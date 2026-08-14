@@ -19,6 +19,8 @@ export const store = $state({
   spec: defaultSpec() as WorksheetSpec,
   /** Error from a shared link, shown once in a banner. */
   hashError: '',
+  /** Sets A–F mode: render six variant sheets (anti-cheating) for the spec. */
+  setsMode: false,
 });
 
 export function setTitle(value: string): void {
@@ -32,6 +34,10 @@ export function setGradeBand(band: GradeBand): void {
 
 export function newNumbers(): void {
   store.spec.seed = randomSeed();
+}
+
+export function toggleSets(): void {
+  store.setsMode = !store.setsMode;
 }
 
 export function addSection(): void {

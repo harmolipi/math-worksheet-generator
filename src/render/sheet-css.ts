@@ -115,6 +115,13 @@ export function sheetCss(spec: WorksheetSpec): string {
   font-size: 11.5pt;
   color: #333;
 }
+.challenge-star {
+  position: absolute;
+  left: 2pt;
+  top: 18pt;
+  color: #555;
+}
+.challenge-star svg { width: 8pt; height: 8pt; display: block; }
 .prompt {
   font-weight: 700;
   margin-bottom: 6pt;
