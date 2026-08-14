@@ -481,6 +481,51 @@ describe('content type property tests (answers by construction)', () => {
     });
   });
 
+  it('next-in-pattern: sequence follows the cycle; the answer option is the next element', () => {
+    forSeeds('next-in-pattern', 40, 'K', (p) => {
+      const d = data<{ cycle: string[]; sequence: string[]; options: string[]; answerIndex: number }>(p);
+      expect(d.cycle.length).toBeGreaterThanOrEqual(2);
+      expect(new Set(d.cycle).size).toBeGreaterThanOrEqual(2); // AAB-style cycles repeat icons
+      for (let i = 0; i < d.sequence.length; i++) {
+        expect(d.sequence[i]).toBe(d.cycle[i % d.cycle.length]);
+      }
+      const next = d.cycle[d.sequence.length % d.cycle.length];
+      expect(d.options[d.answerIndex]).toBe(next);
+      expect(d.options).toHaveLength(3);
+      expect(p.answer!.value).toBe(String.fromCharCode(65 + d.answerIndex));
+    });
+  });
+
+  it('color-by-number: every cell value is in the legend; add labels sum to their value', () => {
+    forSeeds('color-by-number', 40, 'G1', (p) => {
+      const d = data<{
+        kind: 'numbers' | 'add';
+        cells: { label: string; value: number }[];
+        legend: { value: number; color: string }[];
+      }>(p);
+      const legendValues = d.legend.map((l) => l.value);
+      expect(new Set(legendValues).size).toBe(legendValues.length); // distinct values
+      for (const cell of d.cells) {
+        expect(legendValues).toContain(cell.value);
+        if (d.kind === 'add') {
+          const [a, b] = cell.label.split('+').map(Number);
+          expect(a + b).toBe(cell.value);
+          expect(a).toBeGreaterThanOrEqual(1);
+          expect(b).toBeGreaterThanOrEqual(1);
+        } else {
+          expect(cell.label).toBe(String(cell.value));
+        }
+      }
+      for (const v of legendValues) {
+        expect(d.cells.some((c) => c.value === v)).toBe(true); // every value appears
+      }
+      const expectedColors = d.cells.map(
+        (c) => d.legend.find((l) => l.value === c.value)!.color,
+      );
+      expect(p.answer!.value).toBe(expectedColors.join(', '));
+    });
+  });
+
   it('add-vertical with carry=always carries in the ones column', () => {
     for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
       const spec = baseSpec({

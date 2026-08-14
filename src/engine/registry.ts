@@ -11,6 +11,8 @@ import { timeTypes } from '../content/time';
 import { moneyTypes } from '../content/money';
 import { measurementTypes } from '../content/measurement';
 import { geometryTypes } from '../content/geometry';
+import { patternTypes } from '../content/patterns';
+import { colorByNumberTypes } from '../content/colorByNumber';
 import { manualTypes } from '../content/manual';
 
 export const allTypes: QuestionType[] = [
@@ -23,6 +25,8 @@ export const allTypes: QuestionType[] = [
   ...moneyTypes,
   ...measurementTypes,
   ...geometryTypes,
+  ...patternTypes,
+  ...colorByNumberTypes,
   ...manualTypes,
 ];
 

@@ -89,7 +89,19 @@ Status: `planned` → `implemented` → `print-verified` (docs/qa-print.md).
 | `symmetry` | Line of symmetry | G1–3 | implemented | 2 | symmetric icon shapes (Yes) + custom scalene/L (No) |
 | `classify` | Which shapes belong? | G1–3 | implemented | 2 | circle quadrilaterals / curved / polygons, A–F letters |
 
-### patterns / colorByNumber / wordproblems
+### patterns (preK – G2)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `next-in-pattern` | What comes next? | preK–2 | implemented | 2 | repeating icon cycles (AB/AAB/ABC/ABB), A–C choices |
+
+### colorByNumber (preK – G1)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `color-by-number` | Color by number | preK–1 | implemented | 2 | numbers or addition facts → text legend; B&W-safe |
+
+### wordproblems
 
 Reserved subject dirs; tables filled in as Phase 2–3 types land (ruler reading, shape identification, next-in-pattern, color-by-number, word-problem template families).
 
