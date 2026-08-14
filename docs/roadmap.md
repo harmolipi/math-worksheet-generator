@@ -2,7 +2,9 @@
 
 **Source of truth for progress.** Tick items here AND in `.plans/durable-plan.md` as work completes. Each phase ends deployed + print-verified.
 
-Current status: **Phase 2 in progress** — Phase 1 shipped: engine core, manual type, 10 content types + 20 icons, print pipeline (PDF page count verified in Chrome), config UI ("Worksheet Desk"), golden/property/unit test suite. Phase 1 checkpoint partially green: Chrome print verified; Safari/Firefox manual pass pending (docs/qa-print.md).
+Current status: **Phase 2 in progress** — Phase 1 shipped: engine core, manual type, 10 content types + 20 icons, print pipeline (PDF page count verified in Chrome), config UI ("Worksheet Desk"), golden/property/unit test suite (132 tests). Phase 1 checkpoint partially green: Chrome print verified; Safari/Firefox manual pass pending (docs/qa-print.md).
+
+Phase 2 progress: content catalog at 21 types — counting 8 (incl. count-and-write), addsub 4 (incl. sub-vertical), multdiv 5 (facts, vertical, missing-factor, mult-of-10), placevalue 5 (base-10 blocks, expanded form, value-of-digit, compare, odd-even), fractions 3 (shade, of-whole, compare), time 2 (clock-read, elapsed), manual 1. Remaining: money, measurement, geometry, patterns, color-by-number, more icons, then teacher features.
 
 ## Phase 0 — Scaffold
 
