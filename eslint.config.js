@@ -1,0 +1,47 @@
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import eslintPluginSvelte from 'eslint-plugin-svelte';
+import globals from 'globals';
+
+export default [
+  { ignores: ['dist/**', 'node_modules/**'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...eslintPluginSvelte.configs['flat/recommended'],
+  {
+    files: ['**/*.ts', '**/*.svelte'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: { ...globals.browser },
+    },
+  },
+  // Determinism contract for the engine: no wall-clock, no non-seeded randomness.
+  // All randomness must come from the frozen RNG in src/engine/rng.ts.
+  {
+    files: ['src/engine/**/*.ts'],
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        {
+          name: 'Date',
+          message: 'Date is banned in the engine — determinism requires no wall-clock access.',
+        },
+      ],
+      'no-restricted-properties': [
+        'error',
+        {
+          object: 'Math',
+          property: 'random',
+          message: 'Use the frozen RNG from src/engine/rng.ts — determinism requires a seeded source.',
+        },
+      ],
+    },
+  },
+  {
+    files: ['tests/**/*.ts'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
+];
