@@ -396,6 +396,39 @@ svg .icon-dot { stroke-width: 3.2; }
 .key-value { font-weight: 600; }
 .key-detail { color: #666; font-size: 12pt; }
 
+/* ── hundreds chart ─────────────────────────────────── */
+.hundreds-chart { text-align: center; }
+.hundreds-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  border: 1pt solid #999;
+  border-radius: 3pt;
+  overflow: hidden;
+}
+.hundreds-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 19pt;
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: #444;
+  border-right: 0.5pt solid #ccc;
+  border-bottom: 0.5pt solid #ccc;
+}
+.hundreds-cell:nth-child(10n) { border-right: none; }
+.hundreds-cell:nth-last-child(-n+10) { border-bottom: none; }
+.hundreds-cell.missing { color: #fff; }
+
+/* ── ink saver ──────────────────────────────────────── */
+/* Pure line art: hatched fills become outlines, dotted decorations become
+   plain hairlines. CSS fill overrides presentation attributes (fill="url(#…)"),
+   so the pattern defs stay in the markup but draw nothing. */
+.ink-saver [fill^="url(#"] { fill: none; }
+.ink-saver .workspace-grid { background-image: none; border-style: solid; }
+.ink-saver .key-entry { border-bottom-style: solid; border-bottom-color: #ccc; }
+.ink-saver .coin-mill { stroke-width: 1.1; }
+
 /* ── screen only ────────────────────────────────────── */
 @media screen {
   .sheet-page {

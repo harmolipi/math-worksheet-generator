@@ -6,6 +6,7 @@ import { base10Blocks } from './base10-blocks';
 import { expandedForm } from './expanded-form';
 import { valueOfDigit } from './value-of-digit';
 import { compareNumbers } from './compare-numbers';
+import { hundredsChart } from './hundreds-chart';
 import { oddEven } from './odd-even';
 
 export const placevalueSubject = {
@@ -20,4 +21,5 @@ export const placevalueTypes: QuestionType[] = [
   valueOfDigit,
   compareNumbers,
   oddEven,
+  hundredsChart,
 ];

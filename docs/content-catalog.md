@@ -46,7 +46,7 @@ Status: `planned` → `implemented` → `print-verified` (docs/qa-print.md).
 | `missing-number-sequence` | Fill the missing number | K–G1 | implemented | 1 | steps 1/2/5/10 |
 | `number-tracing` | Trace the number | preK–K | implemented | 1 | SVG stroke-dasharray; dashed/outline |
 | `ten-frame` | Ten frames | K–G1 | implemented | 1 | count / how many to make 10 |
-| `count-and-write` | Count and write | preK–K | planned | 2 | icons → numeral in answer box |
+| `count-and-write` | Count and write | preK–K | implemented | 2 | icons → numeral in answer box |
 
 ### addsub (K – G5)
 
@@ -55,7 +55,43 @@ Status: `planned` → `implemented` → `print-verified` (docs/qa-print.md).
 | `add-facts` | Addition facts | K–2 | implemented | 1 | sums ≤10 → ≤20; horiz + vertical; includeZero |
 | `sub-facts` | Subtraction facts | G1–2 | implemented | 1 | minuend ≤10/20; never negative; includeZero |
 | `add-vertical` | Vertical addition | G2–4 | implemented | 1 | carry none/always/mixed by construction; carry row |
-| `sub-vertical` | Vertical subtraction | G2–4 | planned | 2 | no-borrow / borrow |
+| `sub-vertical` | Vertical subtraction | G2–4 | implemented | 2 | no-borrow / borrow by construction |
+
+### multdiv (G2 – G5)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `mult-facts` | Multiplication facts | G2–4 | implemented | 2 | factors ≤ 12; product by construction |
+| `div-facts` | Division facts | G3–4 | implemented | 2 | whole quotients by construction |
+| `mult-vertical` | Vertical multiplication | G3–5 | implemented | 2 | top × single-digit factor |
+| `missing-factor` | Missing factor | G3–4 | implemented | 2 | a × ___ = product |
+| `mult-of-10` | Multiply by tens | G3–4 | implemented | 2 | multiple of 10 × factor |
+
+### placevalue (G1 – G4)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `base10-blocks` | Base-10 blocks | G1–3 | implemented | 2 | flats/rods/units SVG, count the number |
+| `expanded-form` | Expanded form | G1–3 | implemented | 2 | number → 300 + 40 + 5 |
+| `value-of-digit` | Value of a digit | G1–4 | implemented | 2 | underlined digit × place |
+| `compare-numbers` | Compare numbers | G1–4 | implemented | 2 | <, >, = between two numbers |
+| `odd-even` | Odd or even | G1–3 | implemented | 2 | circle odd/even numbers in a row |
+| `hundreds-chart` | Hundreds chart | G1–2 | implemented | 2 | fill missing numbers on the 1–100 grid |
+
+### fractions (G2 – G5)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `fraction-shade` | Shade the fraction | G2–4 | implemented | 2 | bar/pie with hatched parts, write the fraction |
+| `fraction-of-whole` | Fraction of a number | G3–5 | implemented | 2 | n/d of whole — always an integer by construction |
+| `fraction-compare` | Compare fractions | G3–5 | implemented | 2 | cross-multiplication relation, fractions unequal |
+
+### time (G1 – G4)
+
+| id | name | grade | status | phase | notes |
+| --- | --- | --- | --- | --- | --- |
+| `clock-read` | Read the clock | G1–3 | implemented | 2 | analog clock SVG, hour/minute steps |
+| `elapsed-time` | How long did it take? | G2–4 | implemented | 2 | same-day start/end, clean minute steps |
 
 ### manual (all grades)
 
@@ -101,9 +137,9 @@ Status: `planned` → `implemented` → `print-verified` (docs/qa-print.md).
 | --- | --- | --- | --- | --- | --- |
 | `color-by-number` | Color by number | preK–1 | implemented | 2 | numbers or addition facts → text legend; B&W-safe |
 
-### wordproblems
+### wordproblems (Phase 3)
 
-Reserved subject dirs; tables filled in as Phase 2–3 types land (ruler reading, shape identification, next-in-pattern, color-by-number, word-problem template families).
+Reserved subject dir; template-family tables land with the Phase 3 word-problem engine.
 
 ## Icon library (`src/render/icons.ts`)
 

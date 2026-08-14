@@ -103,6 +103,20 @@ describe('assembleSheet', () => {
     expect(variants.every((v) => v.worksheetPageCount === variants[0].worksheetPageCount)).toBe(true);
   });
 
+  it('inkSaver adds the ink-saver class to every page', () => {
+    const on = assembleSheet(
+      assembleSpec({ options: { ...baseSpec().options, inkSaver: true } }),
+      ASSEMBLE_TYPES,
+    );
+    const pages = on.html.match(/class="sheet-page[^"]*"/g) ?? [];
+    expect(pages.length).toBeGreaterThan(0);
+    expect(pages.every((p) => p.includes('ink-saver'))).toBe(true);
+    const off = assembleSheet(assembleSpec(), ASSEMBLE_TYPES);
+    expect(off.html).not.toContain('ink-saver');
+    // Hatched fills survive as markup but are neutralized in CSS.
+    expect(on.css).toContain('.ink-saver [fill^="url(#"]');
+  });
+
   it('challenge problems get a star badge; on-grade problems do not', () => {
     const spec = assembleSpec({
       gradeBand: 'K',

@@ -526,6 +526,23 @@ describe('content type property tests (answers by construction)', () => {
     });
   });
 
+  it('hundreds-chart: missing cells are distinct, values are index + 1, ascending answer', () => {
+    forSeeds('hundreds-chart', 30, 'G1', (p) => {
+      const d = data<{ missing: { index: number; value: number }[] }>(p);
+      expect(d.missing.length).toBeGreaterThanOrEqual(5);
+      expect(d.missing.length).toBeLessThanOrEqual(40);
+      expect(new Set(d.missing.map((m) => m.index)).size).toBe(d.missing.length);
+      for (const m of d.missing) {
+        expect(m.index).toBeGreaterThanOrEqual(0);
+        expect(m.index).toBeLessThan(100);
+        expect(m.value).toBe(m.index + 1);
+      }
+      const values = d.missing.map((m) => m.value);
+      expect([...values].sort((a, b) => a - b)).toEqual(values); // ascending
+      expect(p.answer!.value).toBe(values.map(String).join(', '));
+    });
+  });
+
   it('add-vertical with carry=always carries in the ones column', () => {
     for (const seed of Array.from({ length: 30 }, (_, i) => i + 1)) {
       const spec = baseSpec({

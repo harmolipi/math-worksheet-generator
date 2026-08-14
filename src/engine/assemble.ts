@@ -50,8 +50,9 @@ function worksheetPageHtml(
       return problemCellHtml(spec, p, type);
     })
     .join('');
+  const inkSaver = spec.options.inkSaver ? ' ink-saver' : '';
   return (
-    `<section class="sheet-page worksheet" data-page="${page.number}" ` +
+    `<section class="sheet-page worksheet${inkSaver}" data-page="${page.number}" ` +
     `data-content-h="${page.contentHeightPt}">` +
     headerHtml(spec) +
     `<main class="sheet-content">${content}</main>` +
@@ -63,8 +64,9 @@ function worksheetPageHtml(
 function keyPageHtml(spec: WorksheetSpec, page: PackedPage, totalOfKind: number): string {
   const entries = page.keyEntries.map(keyEntryHtml).join('');
   const title = spec.title ? escapeHtml(spec.title) : '';
+  const inkSaver = spec.options.inkSaver ? ' ink-saver' : '';
   return (
-    `<section class="sheet-page answer-key" data-page="${page.number}" ` +
+    `<section class="sheet-page answer-key${inkSaver}" data-page="${page.number}" ` +
     `data-content-h="${page.contentHeightPt}">` +
     `<header class="sheet-header">` +
     `<div class="key-title">Answer Key${title ? ` — ${title}` : ''}</div>` +

@@ -47,6 +47,24 @@ export function sheetCss(spec: WorksheetSpec): string {
   const basePt = largePrint ? 14 : playful ? 13 : 11.5;
   const headingPt = largePrint ? 15 : 13;
 
+  // Fixed-size elements scale up under large print (fonts already scale via
+  // basePt; icons, coins, grids etc. are hard-coded and need these).
+  const iconPt = largePrint ? 30 : 24;
+  const matchIconPt = largePrint ? 27 : 22;
+  const coinPt = largePrint ? 40 : 32;
+  const shapeBigPt = largePrint ? 68 : 56;
+  const symSvgPt = largePrint ? 90 : 76;
+  const classifyIconPt = largePrint ? 40 : 32;
+  const patternIconPt = largePrint ? 28 : 22;
+  const patternChipIconPt = largePrint ? 22 : 18;
+  const barWpt = largePrint ? 130 : 110;
+  const barHpt = largePrint ? 17 : 15;
+  const rulerMaxPt = largePrint ? 240 : 220;
+  const cbnCellPt = largePrint ? 48 : 40;
+  const traceWpt = largePrint ? 84 : 72;
+  const traceHpt = largePrint ? 96 : 84;
+  const chipPad = largePrint ? '5pt 10pt' : '3pt 8pt';
+
   return `
 @page { size: ${dims.atPageSize}; margin: 0; }
 
@@ -158,8 +176,8 @@ export function sheetCss(spec: WorksheetSpec): string {
 
 /* ── icons ──────────────────────────────────────────── */
 .group-icon, .scatter-icon svg, .match-icons svg {
-  width: 24pt;
-  height: 24pt;
+  width: ${iconPt}pt;
+  height: ${iconPt}pt;
   color: #333;
   display: inline-block;
   margin: 0 2pt;
@@ -193,7 +211,7 @@ svg .icon-dot { stroke-width: 3.2; }
   align-items: center;
   justify-content: center;
   min-width: 1.6em;
-  padding: 3pt 8pt;
+  padding: ${chipPad};
   border: 1.3pt solid #444;
   border-radius: 8pt;
   font-size: ${headingPt}pt;
@@ -229,7 +247,7 @@ svg .icon-dot { stroke-width: 3.2; }
 /* ── tracing ────────────────────────────────────────── */
 .trace-grid { display: flex; flex-wrap: wrap; gap: 6pt 14pt; }
 .trace-pair { display: flex; flex-direction: column; align-items: center; gap: 4pt; }
-.trace-digit { width: 72pt; height: 84pt; }
+.trace-digit { width: ${traceWpt}pt; height: ${traceHpt}pt; }
 .trace-glyph {
   font-family: ${FONTS.handwriting};
   font-size: 74px;
@@ -286,7 +304,7 @@ svg .icon-dot { stroke-width: 3.2; }
   justify-content: center;
   gap: 4pt;
 }
-.coin { width: 32pt; height: 32pt; display: inline-block; }
+.coin { width: ${coinPt}pt; height: ${coinPt}pt; display: inline-block; }
 .coin-rim { fill: none; stroke: #444; stroke-width: 2; }
 .coin-mill { fill: none; stroke: #444; stroke-width: 1.4; }
 .coin-label {
@@ -308,7 +326,7 @@ svg .icon-dot { stroke-width: 3.2; }
 .coins-count, .money-add, .making-change { text-align: center; }
 
 /* ── measurement ─────────────────────────────────────── */
-.ruler { width: 100%; max-width: 220pt; display: block; }
+.ruler { width: 100%; max-width: ${rulerMaxPt}pt; display: block; }
 .ruler-base, .ruler-tick { stroke: #444; stroke-width: 1.6; }
 .ruler-tick { stroke-width: 1.2; }
 .ruler-number { font-size: 13px; fill: #333; font-weight: 600; }
@@ -318,7 +336,7 @@ svg .icon-dot { stroke-width: 3.2; }
 .ruler-read, .compare-lengths, .area-perimeter { text-align: center; }
 .bar-list { display: flex; flex-direction: column; align-items: center; gap: 8pt; margin-top: 4pt; }
 .bar-row { display: flex; align-items: center; gap: 8pt; }
-.bar-svg { width: 110pt; height: 15pt; display: block; }
+.bar-svg { width: ${barWpt}pt; height: ${barHpt}pt; display: block; }
 .bar-rect { fill: none; stroke: #333; stroke-width: 2; }
 .ap-grid { width: 100%; max-width: 180pt; display: block; }
 .ap-cell { stroke: #444; stroke-width: 1; }
@@ -326,11 +344,11 @@ svg .icon-dot { stroke-width: 3.2; }
 
 /* ── geometry ────────────────────────────────────────── */
 .shape-identify, .sides-corners, .symmetry, .classify, .shape-match { text-align: center; }
-.shape-big svg { width: 56pt; height: 56pt; color: #333; }
+.shape-big svg { width: ${shapeBigPt}pt; height: ${shapeBigPt}pt; color: #333; }
 .shape-match .match-row { justify-content: center; }
-.shape-match .match-icons svg { width: 22pt; height: 22pt; }
+.shape-match .match-icons svg { width: ${matchIconPt}pt; height: ${matchIconPt}pt; }
 .match-name { font-size: 12.5pt; font-weight: 700; }
-.sym-svg { width: 76pt; height: 76pt; display: inline-block; color: #333; }
+.sym-svg { width: ${symSvgPt}pt; height: ${symSvgPt}pt; display: inline-block; color: #333; }
 .sym-axis { stroke: #999; stroke-width: 1.4; }
 .sym-choice { justify-content: center; margin-top: 4pt; }
 .classify-grid {
@@ -341,7 +359,7 @@ svg .icon-dot { stroke-width: 3.2; }
   margin-top: 2pt;
 }
 .classify-cell { display: flex; flex-direction: column; align-items: center; gap: 2pt; }
-.classify-cell svg { width: 32pt; height: 32pt; color: #333; }
+.classify-cell svg { width: ${classifyIconPt}pt; height: ${classifyIconPt}pt; color: #333; }
 .classify-letter { font-weight: 800; font-size: 10.5pt; color: #555; }
 
 /* ── patterns ────────────────────────────────────────── */
@@ -353,7 +371,7 @@ svg .icon-dot { stroke-width: 3.2; }
   gap: 6pt;
   margin-bottom: 8pt;
 }
-.pattern-row svg { width: 22pt; height: 22pt; color: #333; }
+.pattern-row svg { width: ${patternIconPt}pt; height: ${patternIconPt}pt; color: #333; }
 .pattern-blank {
   display: inline-block;
   width: 26pt;
@@ -363,7 +381,7 @@ svg .icon-dot { stroke-width: 3.2; }
 }
 .pattern-options { justify-content: center; }
 .pattern-chip { gap: 5pt; }
-.pattern-chip svg { width: 18pt; height: 18pt; color: #333; }
+.pattern-chip svg { width: ${patternChipIconPt}pt; height: ${patternChipIconPt}pt; color: #333; }
 
 /* ── color by number ─────────────────────────────────── */
 .cbn-grid {
@@ -377,8 +395,8 @@ svg .icon-dot { stroke-width: 3.2; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40pt;
-  height: 40pt;
+  width: ${cbnCellPt}pt;
+  height: ${cbnCellPt}pt;
   border: 1.3pt solid #444;
   border-radius: 8pt;
   font-size: 14pt;
@@ -445,6 +463,39 @@ svg .icon-dot { stroke-width: 3.2; }
 .key-label { font-weight: 800; min-width: 2.2em; text-align: right; }
 .key-value { font-weight: 600; }
 .key-detail { color: #666; font-size: ${basePt - 1}pt; }
+
+/* ── hundreds chart ─────────────────────────────────── */
+.hundreds-chart { text-align: center; }
+.hundreds-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  border: 1pt solid #999;
+  border-radius: 3pt;
+  overflow: hidden;
+}
+.hundreds-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 19pt;
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: #444;
+  border-right: 0.5pt solid #ccc;
+  border-bottom: 0.5pt solid #ccc;
+}
+.hundreds-cell:nth-child(10n) { border-right: none; }
+.hundreds-cell:nth-last-child(-n+10) { border-bottom: none; }
+.hundreds-cell.missing { color: #fff; }
+
+/* ── ink saver ──────────────────────────────────────── */
+/* Pure line art: hatched fills become outlines, dotted decorations become
+   plain hairlines. CSS fill overrides presentation attributes (fill="url(#…)"),
+   so the pattern defs stay in the markup but draw nothing. */
+.ink-saver [fill^="url(#"] { fill: none; }
+.ink-saver .workspace-grid { background-image: none; border-style: solid; }
+.ink-saver .key-entry { border-bottom-style: solid; border-bottom-color: #ccc; }
+.ink-saver .coin-mill { stroke-width: 1.1; }
 
 /* ── screen only ────────────────────────────────────── */
 @media screen {
