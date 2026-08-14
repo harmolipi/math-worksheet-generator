@@ -15,7 +15,7 @@ import {
   type WorksheetSpec,
 } from '../engine';
 import type { ManualQuestion } from '../content/manual/manual';
-import { defaultSpec, randomSeed } from './spec-factory';
+import { defaultSpec, randomSeed, randomWorksheet } from './spec-factory';
 
 // Exported as a $state store: components read `store.spec` reactively.
 // (Svelte forbids exporting module-level $derived values.)
@@ -42,6 +42,11 @@ export function newNumbers(): void {
 
 export function toggleSets(): void {
   store.setsMode = !store.setsMode;
+}
+
+/** One-click worksheet: a ready starting point for the current grade band. */
+export function makeRandomWorksheet(): void {
+  store.spec = randomWorksheet(store.spec.gradeBand);
 }
 
 export function addSection(): void {

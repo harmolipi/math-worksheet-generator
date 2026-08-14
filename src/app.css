@@ -188,6 +188,30 @@ button {
   color: var(--ink);
 }
 
+/* One-click worksheet */
+.surprise-btn {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: var(--pencil);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 0.92rem;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+}
+
+.surprise-btn:hover {
+  background: #f0b83a;
+}
+
+.surprise-hint {
+  margin-top: 4px;
+  text-align: center;
+}
+
 /* Sections */
 .section-card {
   border: 1px solid var(--hairline);

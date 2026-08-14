@@ -36,6 +36,7 @@
     deleteFavorite,
     favorites,
     loadFavorite,
+    makeRandomWorksheet,
     rawEditor,
     refreshRawEditor,
     saveFavorite,
@@ -188,6 +189,15 @@
       {/each}
     </div>
   </div>
+
+  <!-- One-click worksheet: a ready starting point for the selected grade. -->
+  <button type="button" class="surprise-btn" onclick={makeRandomWorksheet}>
+    🎲 Make me a worksheet
+  </button>
+  <p class="manual-hint surprise-hint">
+    Picks question types and layout for the grade above — a starting point
+    you can tweak.
+  </p>
 
   <!-- Sections -->
   {#each spec.sections as section, si (si)}
