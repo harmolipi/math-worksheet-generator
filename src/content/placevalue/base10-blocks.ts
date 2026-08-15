@@ -21,9 +21,14 @@ function unitSvg(x: number, y: number): string {
 }
 
 function rodSvg(x: number, y: number): string {
+  // Ten cells of UNIT_W/2 each exactly fill the ROD_W frame (same cell size
+  // as the flat). The old step/width of UNIT_W drew 10 cells across 200
+  // units — spilling 100 units past the frame and bleeding into the next
+  // block, which made rods uncountable against the answer key.
+  const cell = UNIT_W / 2;
   const cells = Array.from(
     { length: 10 },
-    (_, i) => `<rect x="${x + i * UNIT_W}" y="${y}" width="${UNIT_W}" height="${UNIT_W}" class="b10-cell"/>`,
+    (_, i) => `<rect x="${x + i * cell}" y="${y}" width="${cell}" height="${UNIT_W}" class="b10-cell"/>`,
   ).join('');
   return `<g>${cells}<rect x="${x}" y="${y}" width="${ROD_W}" height="${UNIT_W}" class="b10-frame"/></g>`;
 }
@@ -40,34 +45,28 @@ function flatSvg(x: number, y: number): string {
 
 function blocksSvg(flats: number, rods: number, units: number): string {
   // Layout: flats left (big squares), rods next, units last — stacked in rows.
+  // A row wraps when the NEXT block won't fit, and the new row clears the
+  // TALLEST block in the row it leaves — rods/units must clear a 100-tall
+  // flat band or they'd overlap the flat.
   const parts: string[] = [];
-  let y = 0;
   let x = 0;
-  for (let i = 0; i < flats; i++) {
-    parts.push(flatSvg(x, y));
-    x += ROD_W + 8;
-    if (x + ROD_W > 300) {
+  let y = 0;
+  let rowH = 0;
+  const place = (svg: string, w: number, h: number, advance: number) => {
+    parts.push(svg);
+    rowH = Math.max(rowH, h);
+    x += advance;
+    if (x + w > 300) {
       x = 0;
-      y += ROD_W + 8;
+      y += rowH + 8;
+      rowH = 0;
     }
-  }
-  for (let i = 0; i < rods; i++) {
-    parts.push(rodSvg(x, y));
-    x += ROD_W + 8;
-    if (x + ROD_W > 300) {
-      x = 0;
-      y += UNIT_W + 8;
-    }
-  }
-  for (let i = 0; i < units; i++) {
-    parts.push(unitSvg(x, y));
-    x += UNIT_W + 6;
-    if (x + UNIT_W > 300) {
-      x = 0;
-      y += UNIT_W + 8;
-    }
-  }
-  return `<svg class="base10" viewBox="0 0 300 ${Math.max(80, y + 28)}" aria-hidden="true">${parts.join('')}</svg>`;
+  };
+  for (let i = 0; i < flats; i++) place(flatSvg(x, y), ROD_W, ROD_W, ROD_W + 8);
+  for (let i = 0; i < rods; i++) place(rodSvg(x, y), ROD_W, UNIT_W, ROD_W + 8);
+  for (let i = 0; i < units; i++) place(unitSvg(x, y), UNIT_W, UNIT_W, UNIT_W + 6);
+  // View must contain the bottom row fully (y + rowH), plus padding.
+  return `<svg class="base10" viewBox="0 0 300 ${Math.max(80, y + rowH + 8)}" aria-hidden="true">${parts.join('')}</svg>`;
 }
 
 export const base10Blocks: QuestionType = {
@@ -132,22 +131,23 @@ export const base10Blocks: QuestionType = {
 
   estHeightPt(data, ctx): number {
     const { flats, rods, units } = data as unknown as Base10Data;
-    // Replicate blocksSvg's row layout (pure integer math — no DOM).
+    // Replicate blocksSvg's row layout exactly (pure integer math — no DOM).
     let x = 0;
     let y = 0;
-    for (let i = 0; i < flats; i++) {
-      x += 108;
-      if (x + 100 > 300) { x = 0; y += 108; }
-    }
-    for (let i = 0; i < rods; i++) {
-      x += 108;
-      if (x + 100 > 300) { x = 0; y += 28; }
-    }
-    for (let i = 0; i < units; i++) {
-      x += 26;
-      if (x + 20 > 300) { x = 0; y += 28; }
-    }
-    const viewH = Math.max(80, y + 28);
+    let rowH = 0;
+    const place = (w: number, h: number, advance: number) => {
+      rowH = Math.max(rowH, h);
+      x += advance;
+      if (x + w > 300) {
+        x = 0;
+        y += rowH + 8;
+        rowH = 0;
+      }
+    };
+    for (let i = 0; i < flats; i++) place(100, 100, 108);
+    for (let i = 0; i < rods; i++) place(100, 20, 108);
+    for (let i = 0; i < units; i++) place(20, 20, 26);
+    const viewH = Math.max(80, y + rowH + 8);
     const svgW = Math.min(ctx.contentWidthPt, 200); // CSS max-width
     const svgH = Math.min(232, Math.ceil((viewH * svgW) / 300) + 2); // CSS max-height (px rounding)
     return promptH(ctx) + svgH + answerH(ctx);
